@@ -35,7 +35,7 @@
         color: #475569;
         line-height: 1.4;
         background: #fff;
-        border: 1px solid #e2e8f0;
+        /* border: 1px solid #e2e8f0; */
         border-radius: 10px;
         padding: 8px 14px;
     }
@@ -92,7 +92,9 @@
 <h3><span class="num">4.</span> LLM 분석 <code>Analyzer.analyze_batch</code></h3>
 <ul>
 <li><strong>5개</strong> 단위 청크, 청크 사이 <strong>15초</strong> 대기(RPM 완화)</li>
-<li>프롬프트: 제목, 가격, 네이버 최저가·절약액, 링크, 점수, 댓글 미리보기(상위 5개) 등</li>
+<li><strong>5건인 이유</strong> — <code>429</code>/<code>503</code>·레이트·모델 부하를 피하고, 청크가 클수록 한 번 실패 시 손실 단위·<strong>JSON 잘림·파싱 실패</strong> 위험이 커짐(<code>analyzer</code> 쪽 주석·예외 메시지와 동일 취지).</li>
+<li><strong>입·출력 크기</strong> — 항목마다 제목·가격·네이버·절약액·링크·점수·댓글 미리보기(상위 5개) 등으로 프롬프트가 두껍고, 구조화 응답도 길어져 <strong>TPM·비용·지연</strong>에 민감 → 배치 상한을 5로 둠.</li>
+<li>위 필드를 시스템 프롬프트에 묶어 청크별로 전송, 응답은 딜 ID로 매핑</li>
 <li>기본 <code>gemini-3-flash-preview</code>, 실패 시 <code>gemini-2.0-flash</code> 등 <strong>폴백·재시도</strong></li>
 <li>응답 JSON 스키마: <code>HOT</code>/<code>MAYBE</code>만 배열에 넣고 <code>DROP</code>은 생략 유도</li>
 </ul>
@@ -125,15 +127,16 @@
 </div>
 </div>
 
-<div class="flow-bar" style="position: absolute; left: 64px; top: 598px; width: 1152px; box-sizing: border-box;">
-<i class="fas fa-arrows-left-right" style="color:#667eea;margin-right:8px;"></i>
-<strong>한 줄 흐름:</strong>
-하드필터 → 소프트 스코어+네이버 → READY 선별 → 청크 LLM → 매핑·암시적 DROP → 핫딜 임베딩 → 로컬 캐시·DB(핫만)·JSON·통계·오래된 행 삭제
-</div>
+
 
 <div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
 <div style="display: flex; align-items: center; justify-content: space-between; height: 100%; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
-<span style="font-size: 13px; color: #475569;"><i class="fas fa-diagram-project" style="color:#667eea;margin-right:8px;"></i>03-1·03-2 슬라이드와 함께 보면 로그·코드가 맞물립니다</span>
+<!-- <span style="font-size: 13px; color: #475569;"><i class="fas fa-diagram-project" style="color:#667eea;margin-right:8px;"></i></span> -->
+<div class="flow-bar">
+    <i class="fas fa-arrows-left-right" style="color:#667eea;margin-right:8px;"></i>
+    <strong>한 줄 흐름:</strong>
+    하드필터 → 소프트 스코어+네이버 → READY 선별 → 청크 LLM → 매핑·암시적 DROP → 핫딜 임베딩 → 로컬 캐시·DB(핫만)·JSON·통계·오래된 행 삭제
+ </div>
 <span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
 </div>
 </div>
