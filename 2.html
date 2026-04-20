@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>서비스 소개 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans KR', sans-serif;
+        background: #f1f5f9;
+        overflow: hidden;
+    }
+    .slide-container {
+        width: 1280px;
+        height: 720px;
+        position: relative;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        overflow: hidden;
+    }
+    .feature-card {
+        background: white;
+        border-radius: 20px;
+        padding: 32px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .status-badge {
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+    .status-active { background: #d1fae5; color: #059669; }
+    .status-processing { background: #fef3c7; color: #d97706; }
+    .status-pending { background: #e0e7ff; color: #6366f1; }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<!-- Header - Fixed height to avoid overflow and adjusted positioning -->
+<div data-object="true" data-object-type="textbox" style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0; line-height: 1.2;">
+<span style="color: #667eea;">02.</span> 서비스 소개
+                </h1>
+<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;">수집·검증·요약까지 이어지는 서버리스 풀스택 — Next.js 15 · Supabase · Gemini</p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
+<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">AI 기반 큐레이션</div>
+</div>
+</div>
+</div>
+<!-- Main Content Grid - Adjusted top to account for taller header and filled space -->
+<div data-object="true" data-object-type="shape" style="position: absolute; left: 64px; top: 160px; width: 1152px; height: 460px;">
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; height: 100%;">
+<!-- Card 1: 자동 수집 -->
+<div class="feature-card">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<div class="feature-icon" style="background: #fef3c7;">
+<i class="fas fa-robot" style="font-size: 26px; color: #d97706;"></i>
+</div>
+<div>
+<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">자동 수집</h3>
+<span style="font-size: 14px; color: #64748b;">매일 06:00 자동 실행</span>
+</div>
+</div>
+<span class="status-badge status-active">활성</span>
+</div>
+<div style="background: #fffbeb; border-radius: 14px; padding: 20px; margin-bottom: 24px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+<span style="font-size: 15px; color: #475569;">수집 아이템</span>
+<span style="font-size: 18px; font-weight: 700; color: #1e293b;">600~700개/일</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 15px; color: #475569;">수집 범위</span>
+<span style="font-size: 15px; color: #059669; font-weight: 600;">24시간 내 게시글</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto;">
+<span style="background: #f1f5f9; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #475569;">3개 커뮤니티</span>
+<span style="background: #f1f5f9; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #475569;">실제 판매 링크</span>
+<span style="background: #f1f5f9; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #475569;">가격/반응 추출</span>
+</div>
+</div>
+<!-- Card 2: 3단계 필터링 -->
+<div class="feature-card">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<div class="feature-icon" style="background: #d1fae5;">
+<i class="fas fa-filter" style="font-size: 26px; color: #059669;"></i>
+</div>
+<div>
+<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">3단계 필터링</h3>
+<span style="font-size: 14px; color: #64748b;">AI 기반 정제</span>
+</div>
+</div>
+<span class="status-badge status-processing">처리중</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+<div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
+<div style="width: 85%; height: 100%; background: linear-gradient(90deg, #059669, #10b981); border-radius: 5px;"></div>
+</div>
+<span style="font-size: 14px; color: #059669; font-weight: 700;">85%</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px; margin-top: auto; padding-bottom: 10px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<div style="width: 8px; height: 8px; background: #059669; border-radius: 50%;"></div>
+<span style="font-size: 14px; color: #475569;">하드 필터: 상태/유형 키워드 제거</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px;">
+<div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+<span style="font-size: 14px; color: #475569;">소프트 스코어링: 가산점 부여</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px;">
+<div style="width: 8px; height: 8px; background: #34d399; border-radius: 50%;"></div>
+<span style="font-size: 14px; color: #475569;">AI 분석: 감성/바이럴 검출</span>
+</div>
+</div>
+</div>
+<!-- Card 3: 탐색 경험 -->
+<div class="feature-card">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<div class="feature-icon" style="background: #e0e7ff;">
+<i class="fas fa-search" style="font-size: 26px; color: #6366f1;"></i>
+</div>
+<div>
+<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">탐색 경험</h3>
+<span style="font-size: 14px; color: #64748b;">pgvector + 자연어 검색</span>
+</div>
+</div>
+<span class="status-badge status-pending">대기</span>
+</div>
+<div style="background: #f0f4ff; border-radius: 14px; padding: 20px; margin-bottom: 24px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+<span style="font-size: 15px; color: #475569;">검색 방식</span>
+<span style="font-size: 15px; color: #6366f1; font-weight: 700;">의미 기반 검색</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 15px; color: #475569;">벡터 차원</span>
+<span style="font-size: 15px; color: #6366f1; font-weight: 600;">768차원</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto;">
+<span style="background: #f1f5f9; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #475569;">전체·카테고리 베스트10</span>
+<span style="background: #f1f5f9; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #475569;">목록·필터</span>
+<span style="background: #f1f5f9; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #475569;">맞춤 추천 검색</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Stats - Moved down to minimize tail strip -->
+<div data-object="true" data-object-type="shape" style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 12px; padding: 0 24px; height: 100%; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<div style="display: flex; align-items: center; gap: 32px;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<i class="fas fa-check-circle" style="color: #667eea; font-size: 14px;"></i>
+<span style="font-size: 14px; color: #475569;"><strong>신뢰도</strong> 상승</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<i class="fas fa-clock" style="color: #667eea; font-size: 14px;"></i>
+<span style="font-size: 14px; color: #475569;"><strong>탐색 시간</strong> 절약</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<i class="fas fa-dollar-sign" style="color: #667eea; font-size: 14px;"></i>
+<span style="font-size: 14px; color: #475569;"><strong>실질 절약액</strong> 중심</span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
+<span style="font-size: 14px; color: #667eea; font-weight: 700;">AI 큐레이션</span>
+</div>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div style="position: absolute; right: -50px; top: -50px; width: 350px; height: 350px; opacity: 0.08; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+<div style="position: absolute; left: -50px; bottom: -50px; width: 300px; height: 300px; opacity: 0.08; background: radial-gradient(circle, #764ba2 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+</body>
+</html>

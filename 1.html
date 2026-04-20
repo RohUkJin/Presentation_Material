@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>문제 정의 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            overflow: hidden;
+        }
+        .problem-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .pain-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-danger { background: #fee2e2; color: #dc2626; }
+        .status-warning { background: #fef3c7; color: #d97706; }
+        .status-success { background: #d1fae5; color: #059669; }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+<!-- Header -->
+<div data-object="true" data-object-type="textbox" style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<span style="color: #667eea;">01.</span> 문제 정의
+                    </h1>
+<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;">여러 커뮤니티에 흩어진 핫딜 · 광고·바이럴 혼재 · 비교 번거로움을 한 화면·AI 정제로 해소합니다</p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
+<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">AI 기반 큐레이션</div>
+</div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div data-object="true" data-object-type="shape" style="position: absolute; left: 64px; top: 145px; width: 1152px; height: 485px;">
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; height: 100%;">
+<!-- Card 1: 분산된 정보 -->
+<div class="problem-card">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+<div style="display: flex; align-items: center; gap: 14px;">
+<div class="pain-icon" style="background: #fef3c7;">
+<i class="fas fa-globe-asia" style="font-size: 20px; color: #d97706;"></i>
+</div>
+<div>
+<h3 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 0;">분산된 정보</h3>
+<span style="font-size: 13px; color: #64748b;">여러 커뮤니티에서 정보 수집 필요</span>
+</div>
+</div>
+<span class="status-badge status-warning">높음</span>
+</div>
+<div style="background: #fffbeb; border-radius: 12px; padding: 16px; margin-bottom: 20px; flex-grow: 1;">
+<p style="font-size: 14px; color: #475569; margin: 0; line-height: 1.8;">
+<i class="fas fa-circle" style="font-size: 8px; color: #f59e0b; margin-right: 10px; vertical-align: middle;"></i>
+                            3개의 커뮤니티에서 매일 600~700개 아이템 수집
+                        </p>
+<p style="font-size: 14px; color: #475569; margin: 12px 0 0 0; line-height: 1.8;">
+<i class="fas fa-circle" style="font-size: 8px; color: #f59e0b; margin-right: 10px; vertical-align: middle;"></i>
+                            24시간 내 작성된 게시글만 수집 (데이터 누락 방지)
+                        </p>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
+<i class="fas fa-exclamation-triangle" style="color: #f59e0b; font-size: 14px;"></i>
+<span style="font-size: 13px; color: #64748b; font-weight: 500;">실시간성 탓에 놓치기 쉽고 비교가 번거로움</span>
+</div>
+</div>
+<!-- Card 2: 광고/바이럴 혼재 -->
+<div class="problem-card">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+<div style="display: flex; align-items: center; gap: 14px;">
+<div class="pain-icon" style="background: #fee2e2;">
+<i class="fas fa-ad" style="font-size: 20px; color: #dc2626;"></i>
+</div>
+<div>
+<h3 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 0;">광고/바이럴 혼재</h3>
+<span style="font-size: 13px; color: #64748b;">신뢰도 하락, 노이즈 과다</span>
+</div>
+</div>
+<span class="status-badge status-danger">심각</span>
+</div>
+<div style="background: #fef2f2; border-radius: 12px; padding: 16px; margin-bottom: 20px; flex-grow: 1;">
+<p style="font-size: 14px; color: #475569; margin: 0; line-height: 1.8;">
+<i class="fas fa-circle" style="font-size: 8px; color: #ef4444; margin-right: 10px; vertical-align: middle;"></i>
+                            "종료", "품절", "매진" 등 상태 키워드 필터링 필요
+                        </p>
+<p style="font-size: 14px; color: #475569; margin: 12px 0 0 0; line-height: 1.8;">
+<i class="fas fa-circle" style="font-size: 8px; color: #ef4444; margin-right: 10px; vertical-align: middle;"></i>
+                            "광고", "제휴", "체험단" 등 유형 키워드 제거
+                        </p>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
+<i class="fas fa-filter" style="color: #ef4444; font-size: 14px;"></i>
+<span style="font-size: 13px; color: #64748b; font-weight: 500;">댓글 3개 미만, 가격 정보 없는 글 제거</span>
+</div>
+</div>
+<!-- Card 3: 가격·혜택 검증 부담 (사용자 관점 문제) -->
+<div class="problem-card">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+<div style="display: flex; align-items: center; gap: 14px;">
+<div class="pain-icon" style="background: #e0e7ff;">
+<i class="fas fa-scale-balanced" style="font-size: 20px; color: #6366f1;"></i>
+</div>
+<div>
+<h3 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 0;">가격·혜택 검증 부담</h3>
+<span style="font-size: 13px; color: #64748b;">‘진짜 이득인지’ 확인하려면 추가 수고가 큼</span>
+</div>
+</div>
+<span class="status-badge status-warning">높음</span>
+</div>
+<div style="background: #f0f4ff; border-radius: 12px; padding: 16px; margin-bottom: 20px; flex-grow: 1;">
+<p style="font-size: 14px; color: #475569; margin: 0; line-height: 1.8;">
+<i class="fas fa-circle" style="font-size: 8px; color: #6366f1; margin-right: 10px; vertical-align: middle;"></i>
+                            글마다 할인·단가 표기 방식이 달라 훑기만으로는 비교가 어려움
+                        </p>
+<p style="font-size: 14px; color: #475569; margin: 12px 0 0 0; line-height: 1.8;">
+<i class="fas fa-circle" style="font-size: 8px; color: #6366f1; margin-right: 10px; vertical-align: middle;"></i>
+                            시중 최저가·배송 조건까지 보려면 검색·탭 이동이 반복됨
+                        </p>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
+<i class="fas fa-hourglass-half" style="color: #6366f1; font-size: 14px;"></i>
+<span style="font-size: 13px; color: #64748b; font-weight: 500;">합리적 구매까지 걸리는 시간·인지 부담이 큼</span>
+</div>
+</div>
+<!-- Card 4: 사용자 니즈 -->
+<div class="problem-card">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+<div style="display: flex; align-items: center; gap: 14px;">
+<div class="pain-icon" style="background: #d1fae5;">
+<i class="fas fa-users" style="font-size: 20px; color: #059669;"></i>
+</div>
+<div>
+<h3 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 0;">사용자 니즈</h3>
+<span style="font-size: 13px; color: #64748b;">한 곳에서 모아보고 싶은 요구</span>
+</div>
+</div>
+<span class="status-badge status-success">해결</span>
+</div>
+<div style="background: #f0fdf4; border-radius: 12px; padding: 16px; margin-bottom: 20px; flex-grow: 1;">
+<p style="font-size: 14px; color: #475569; margin: 0; line-height: 1.8;">
+<i class="fas fa-check" style="font-size: 12px; color: #10b981; margin-right: 8px; vertical-align: middle;"></i>
+                            한 화면에 모아서 비교·열람
+                        </p>
+<p style="font-size: 14px; color: #475569; margin: 12px 0 0 0; line-height: 1.8;">
+<i class="fas fa-check" style="font-size: 12px; color: #10b981; margin-right: 8px; vertical-align: middle;"></i>
+                            신뢰할 만한 핫딜 위주로 보고 싶음
+                        </p>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
+<i class="fas fa-clock" style="color: #10b981; font-size: 14px;"></i>
+<span style="font-size: 13px; color: #64748b; font-weight: 500;">탐색 시간 절약, 맞춤형 추천</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Stats -->
+<div data-object="true" data-object-type="shape" style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 12px; padding: 0 24px; height: 100%; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<div style="display: flex; align-items: center; gap: 32px;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<i class="fas fa-database" style="color: #667eea; font-size: 14px;"></i>
+<span style="font-size: 14px; color: #475569;"><strong>600~700개</strong> 아이템/일</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<i class="fas fa-clock" style="color: #667eea; font-size: 14px;"></i>
+<span style="font-size: 14px; color: #475569;"><strong>06:00 KST</strong> 자동 수집</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<i class="fas fa-filter" style="color: #667eea; font-size: 14px;"></i>
+<span style="font-size: 14px; color: #475569;"><strong>3단계</strong> 필터링</span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
+<span style="font-size: 14px; color: #667eea; font-weight: 700;">AI 큐레이션</span>
+</div>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div style="position: absolute; right: -50px; top: -50px; width: 300px; height: 300px; opacity: 0.05; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+<div style="position: absolute; left: -50px; bottom: -50px; width: 250px; height: 250px; opacity: 0.05; background: radial-gradient(circle, #764ba2 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+</body>
+</html>

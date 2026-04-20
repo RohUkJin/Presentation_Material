@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>03-3 크롤링·처리 파이프라인 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); overflow: hidden; }
+    .slide-container { width: 1280px; height: 720px; position: relative; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); overflow: hidden; }
+    .pcard {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 7px 10px 8px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .pcard h3 {
+        font-size: 12px;
+        font-weight: 800;
+        color: #1e293b;
+        margin: 0 0 4px 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .pcard h3 span.num { color: #667eea; font-variant-numeric: tabular-nums; }
+    .pcard code { font-size: 9.5px; font-weight: 600; background: #f1f5f9; padding: 1px 5px; border-radius: 4px; color: #475569; }
+    .pcard ul { margin: 0; padding-left: 14px; font-size: 10.5px; color: #475569; line-height: 1.32; }
+    .pcard li { margin-bottom: 2px; }
+    .flow-bar {
+        font-size: 11px;
+        color: #475569;
+        line-height: 1.4;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 8px 14px;
+    }
+    .flow-bar strong { color: #334155; }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<span style="color: #667eea;">03-3.</span> 크롤링·처리 파이프라인
+</h1>
+<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;">수집 이후 <code style="font-size:13px;background:#e2e8f0;padding:2px 8px;border-radius:6px;">run_once</code> 기준 — 하드필터부터 캐시·DB·통계까지</p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
+<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">상세</div>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 150px; width: 1152px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<div class="pcard">
+<h3><span class="num">1.</span> 하드 필터 <code>_apply_hard_filter</code></h3>
+<ul>
+<li><strong>드롭 키워드</strong> — 제목에 종료·품절·광고 등 → 즉시 <code>DROP</code></li>
+<li><strong>댓글</strong> — 3 미만이면 원칙 <code>DROP</code>. 예외: 게시 <strong>30분 이내</strong> + 댓글 ≥1 → 통과 (<code>kept fresh deal</code> 로그)</li>
+<li><strong>가격</strong> — 상세·제목에서 추출·정규화, 없으면 <code>DROP</code></li>
+<li>통과 시 <code>process_deal</code>이 다음 단계로 진행</li>
+</ul>
+</div>
+<div class="pcard">
+<h3><span class="num">2.</span> 소프트 스코어 + 네이버 <code>_calculate_soft_score</code></h3>
+<ul>
+<li>가격 명시, 할인·긍정 키워드, 댓글 수, 부정 키워드, 반응 속도(velocity) 등 <strong>가감점</strong></li>
+<li><strong>네이버 쇼핑 API</strong> — 제목 정리 후 검색, 첫 상품 <code>lprice</code>와 비교. <strong>자격·설정 없으면 비교 생략</strong></li>
+<li><strong>단가</strong>(수량·배송비 반영) — 딜이 네이버보다 비싸면 <code>DROP</code> 후 점수 계산 <strong>중단</strong></li>
+<li>싸면 savings·할인율·절약액에 따른 보너스, <code>deal.naver_price</code> 설정(LLM·DB용)</li>
+</ul>
+</div>
+<div class="pcard">
+<h3><span class="num">3.</span> 점수 임계값</h3>
+<ul>
+<li><code>score &lt; 0</code> → <code>DROP</code> + 사유</li>
+<li>그 외 → <code>status = "READY"</code> → <code>run_once</code>에서 <code>[READY]</code> 출력 후 <strong>분석 대열</strong>에 포함</li>
+</ul>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<div class="pcard">
+<h3><span class="num">4.</span> LLM 분석 <code>Analyzer.analyze_batch</code></h3>
+<ul>
+<li><strong>5개</strong> 단위 청크, 청크 사이 <strong>15초</strong> 대기(RPM 완화)</li>
+<li>프롬프트: 제목, 가격, 네이버 최저가·절약액, 링크, 점수, 댓글 미리보기(상위 5개) 등</li>
+<li>기본 <code>gemini-3-flash-preview</code>, 실패 시 <code>gemini-2.0-flash</code> 등 <strong>폴백·재시도</strong></li>
+<li>응답 JSON 스키마: <code>HOT</code>/<code>MAYBE</code>만 배열에 넣고 <code>DROP</code>은 생략 유도</li>
+</ul>
+</div>
+<div class="pcard">
+<h3><span class="num">5.</span> 청크 결과를 딜에 반영</h3>
+<ul>
+<li>응답에 <strong>ID 있음</strong> → <code>is_hotdeal</code>, 카테고리(enum 매핑), <code>ai_summary</code>, <code>sentiment_score</code>, <code>embed_text</code>, <code>status</code>를 <code>HOT</code>/<code>DROP</code>으로 설정</li>
+<li><strong>없음</strong>(모델이 DROP) → <code>is_hotdeal=False</code>, DROP 처리, 요약은 고정 문구 등</li>
+<li>청크 전체 JSON 파싱 등 <strong>예외</strong> 시, 아직 <code>READY</code>인 딜은 <code>status = "ERROR"</code></li>
+</ul>
+</div>
+<div class="pcard">
+<h3><span class="num">6.</span> 임베딩 <code>_generate_embeddings</code></h3>
+<ul>
+<li><code>is_hotdeal</code>이고 <code>embed_text</code> 있는 딜만 <code>gemini-embedding-001</code> → <code>deal.embedding</code></li>
+<li>실패 시 로그만(상위에서 처리)</li>
+</ul>
+</div>
+<div class="pcard">
+<h3><span class="num">7.</span> 파이프라인 마무리 <code>run_once</code></h3>
+<ul>
+<li><code>Processor.update_cache</code> — <code>cache.json</code>에 당일 날짜와 함께 저장</li>
+<li><code>db.save_deal</code> — <code>is_hotdeal</code>일 때만 DB(필드는 <code>database.py</code> 정의)</li>
+<li>콘솔 최종 요약, <code>last_run_result.json</code> 전체 딜 덤프</li>
+<li><code>db.save_app_stats</code> — 커뮤니티 수, 수집·드롭·캐시·핫딜(신규+캐시)·절약액 합 등</li>
+<li><code>db.clean_old_deals(5)</code> — 5일 지난 딜 정리</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="flow-bar" style="position: absolute; left: 64px; top: 598px; width: 1152px; box-sizing: border-box;">
+<i class="fas fa-arrows-left-right" style="color:#667eea;margin-right:8px;"></i>
+<strong>한 줄 흐름:</strong>
+하드필터 → 소프트 스코어+네이버 → READY 선별 → 청크 LLM → 매핑·암시적 DROP → 핫딜 임베딩 → 로컬 캐시·DB(핫만)·JSON·통계·오래된 행 삭제
+</div>
+
+<div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 100%; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<span style="font-size: 13px; color: #475569;"><i class="fas fa-diagram-project" style="color:#667eea;margin-right:8px;"></i>03-1·03-2 슬라이드와 함께 보면 로그·코드가 맞물립니다</span>
+<span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
+</div>
+</div>
+<div style="position: absolute; right: -36px; bottom: 72px; width: 180px; height: 180px; opacity: 0.06; background: radial-gradient(circle, #764ba2 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+</body>
+</html>

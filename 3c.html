@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>03-2 필터·AI 선별 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); overflow: hidden; }
+    .slide-container { width: 1280px; height: 720px; position: relative; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); overflow: hidden; }
+    .shot {
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+        background: #0f172a;
+    }
+    .shot img { width: 100%; height: 168px; object-fit: contain; object-position: center top; display: block; cursor: zoom-in; }
+    .cap { font-size: 12px; color: #64748b; margin-top: 8px; line-height: 1.45; }
+    .cap strong { color: #475569; }
+    .cmp-wrap {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px 14px 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .cmp-wrap > p { margin: 0 0 8px 0; font-size: 12px; font-weight: 700; color: #1e293b; }
+    .cmp-table { width: 100%; border-collapse: collapse; font-size: 11.5px; color: #334155; line-height: 1.4; }
+    .cmp-table thead th {
+        padding: 8px 10px;
+        text-align: left;
+        font-weight: 700;
+        border: 1px solid #cbd5e1;
+    }
+    .cmp-table thead th:first-child {
+        width: 13%;
+        background: #f8fafc;
+        color: #64748b;
+        font-size: 11px;
+    }
+    .cmp-table thead th.kept-col { background: #d1fae5; color: #065f46; }
+    .cmp-table thead th.ready-col { background: #ede9fe; color: #5b21b6; }
+    .cmp-table tbody th {
+        padding: 7px 10px;
+        text-align: left;
+        font-weight: 700;
+        color: #475569;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        width: 13%;
+        vertical-align: top;
+    }
+    .cmp-table tbody td {
+        padding: 7px 10px;
+        border: 1px solid #e2e8f0;
+        vertical-align: top;
+    }
+    .cmp-table tbody tr:nth-child(even) td { background: #fafafa; }
+    .cmp-table tbody tr:nth-child(even) th { background: #e8eef4; }
+    .cmp-table code { font-size: 10px; padding: 1px 5px; border-radius: 4px; background: #fff; border: 1px solid #e2e8f0; }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<span style="color: #667eea;">03-2.</span> 하드 필터 · 검증 · AI 선별
+</h1>
+<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;"><strong style="color:#475569;">kept fresh deal</strong>과 <strong style="color:#475569;">[READY]</strong>는 서로 다른 단계입니다 · <code style="font-size:13px;background:#e2e8f0;padding:2px 8px;border-radius:6px;">processor.py</code> / <code style="font-size:13px;background:#e2e8f0;padding:2px 8px;border-radius:6px;">run_once.py</code></p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
+<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">파이프라인</div>
+</div>
+</div>
+</div>
+
+<div class="cmp-wrap" style="position: absolute; left: 64px; top: 140px; width: 1152px; box-sizing: border-box;">
+<p>한눈에 비교 — <code>kept fresh deal</code> vs <code>[READY]</code></p>
+<table class="cmp-table">
+<thead>
+<tr>
+<th scope="col">항목</th>
+<th scope="col" class="kept-col"><code>kept fresh deal</code> (로그)</th>
+<th scope="col" class="ready-col"><code>[READY]</code> (콘솔)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">출력</th>
+<td><code>logger.info</code> 등 앱 로그</td>
+<td><code>print</code> — <code>run_once.py</code>에서만</td>
+</tr>
+<tr>
+<th scope="row">코드 위치</th>
+<td><code>processor.py</code> · 하드필터 <strong>댓글 수</strong> 조건 분기 안</td>
+<td><code>Processor.process_deal</code> 호출이 끝난 뒤, 상태가 <code>READY</code>일 때</td>
+</tr>
+<tr>
+<th scope="row">파이프라인 단계</th>
+<td>필터 <strong>초반</strong> — 댓글 &lt; 3이어도 신규 예외(30분·댓글≥1)면 <strong>이 분기에서만</strong> 드롭하지 않고 다음 하드 검사로 넘김</td>
+<td><strong>전체</strong> 처리 끝 — 하드 → 소프트 스코어 → 점수 임계(<code>score ≥ 0</code>)까지 통과</td>
+</tr>
+<tr>
+<th scope="row">조건·의미</th>
+<td>원칙: 댓글 &lt; 3이면 드롭 후보. 예외: <strong>작성 30분 이내</strong>이고 <strong>댓글 ≥ 1</strong>이면 이 단계에서 드롭하지 않음.</td>
+<td><code>deal.status = "READY"</code> → <strong>LLM 분석 대기열</strong>. <code>score &lt; 0</code>이면 <code>DROP</code>으로 끝남.</td>
+</tr>
+<tr>
+<th scope="row">관계</th>
+<td colspan="2" style="background:#fffbeb;border-color:#fde68a;">같은 딜에 대해 <strong>kept가 찍혔다고 곧 [READY]는 아님</strong> — 이후 가격·스코어에서 <code>Dropped</code>될 수 있음. 반대로 댓글 ≥ 3이면 kept 로그 없이도 [READY]까지 갈 수 있음.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div style="position: absolute; left: 64px; top: 398px; width: 1152px;">
+<p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 600; color: #64748b;">실행 로그 캡처 예시</p>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div>
+<div class="shot"><img src="assets/evidence-filter-kept-dropped.png" alt="Dropped 및 kept fresh deal 로그"/></div>
+<p class="cap"><strong>①</strong> <code style="font-size:10px;background:#fee2e2;color:#991b1b;padding:2px 5px;border-radius:4px;">Dropped</code> / <code style="font-size:10px;background:#d1fae5;color:#065f46;padding:2px 5px;border-radius:4px;">kept fresh deal</code></p>
+</div>
+<div>
+<div class="shot"><img src="assets/evidence-pipeline-naver-ready.png" alt="네이버 API httpx Dropped READY 로그"/></div>
+<p class="cap"><strong>②</strong> <code style="font-size:10px;background:#e0e7ff;color:#3730a3;padding:2px 5px;border-radius:4px;">httpx</code> 검증 / <code style="font-size:10px;background:#ede9fe;color:#5b21b6;padding:2px 5px;border-radius:4px;">[READY]</code></p>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 100%; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<span style="font-size: 14px; color: #475569;"><i class="fas fa-magnifying-glass-plus" style="color:#667eea;margin-right:8px;font-size:14px;"></i>캡처 <strong>클릭</strong> 시 크게 보기 · 로그 문구는 환경에 따라 일부 다를 수 있음</span>
+<span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
+</div>
+</div>
+<div style="position: absolute; left: -40px; bottom: 80px; width: 200px; height: 200px; opacity: 0.06; background: radial-gradient(circle, #764ba2 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+<div id="local-img-overlay" tabindex="-1" style="display:none;position:fixed;inset:0;z-index:99999;padding:16px;box-sizing:border-box;background:rgba(15,23,42,0.94);align-items:center;justify-content:center;flex-direction:column;outline:none;">
+<button type="button" id="local-img-close" style="position:absolute;top:12px;right:12px;width:40px;height:40px;border:none;border-radius:8px;background:rgba(255,255,255,0.15);color:#e2e8f0;cursor:pointer;font-size:18px;" aria-label="닫기">×</button>
+<img id="local-img-overlay-img" alt="" style="max-width:100%;max-height:88vh;object-fit:contain;border-radius:8px;"/>
+<p style="margin-top:10px;font-size:12px;color:#94a3b8;">배경 클릭 또는 Esc로 닫기</p>
+</div>
+<script>
+(function () {
+  function openLocal(src) {
+    var o = document.getElementById('local-img-overlay');
+    var im = document.getElementById('local-img-overlay-img');
+    if (!o || !im) return;
+    im.src = src;
+    o.style.display = 'flex';
+    try { o.focus({ preventScroll: true }); } catch (e2) { o.focus(); }
+  }
+  function closeLocal() {
+    var o = document.getElementById('local-img-overlay');
+    var im = document.getElementById('local-img-overlay-img');
+    if (o) o.style.display = 'none';
+    if (im) im.src = '';
+  }
+  function wire() {
+    document.querySelectorAll('.shot img').forEach(function (img) {
+      img.setAttribute('title', '클릭하면 크게 보기');
+      img.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        var src = img.currentSrc || img.src;
+        try {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'ppt-open-image', src: src }, '*');
+            return;
+          }
+        } catch (e1) {}
+        openLocal(src);
+      });
+    });
+    var lo = document.getElementById('local-img-overlay');
+    var lc = document.getElementById('local-img-close');
+    if (lo) {
+      lo.addEventListener('click', function (e) {
+        if (e.target === lo) closeLocal();
+      });
+    }
+    if (lc) lc.addEventListener('click', function (e) { e.stopPropagation(); closeLocal(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && lo && lo.style.display === 'flex') closeLocal();
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+  else wire();
+})();
+</script>
+</body>
+</html>

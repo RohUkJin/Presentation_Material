@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>데모·시연 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans KR', sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        overflow: hidden;
+    }
+    .slide-container {
+        width: 1280px;
+        height: 720px;
+        position: relative;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        overflow: hidden;
+    }
+    .demo-panel {
+        background: white;
+        border-radius: 18px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+    }
+    .check-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        font-size: 15px;
+        color: #334155;
+    }
+    .browser-chrome {
+        background: #1e293b;
+        border-radius: 12px 12px 0 0;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mock-screen {
+        border-radius: 0 0 12px 12px;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-top: 0;
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+    .mock-screen iframe {
+        flex: 1;
+        width: 100%;
+        border: 0;
+        background: #fff;
+    }
+    .live-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 14px;
+        background: #1e293b;
+        border-top: 1px solid #334155;
+    }
+    .live-url {
+        font-size: 12px;
+        color: #94a3b8;
+        word-break: break-all;
+        flex: 1;
+    }
+    .live-btn {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        background: #667eea;
+        border-radius: 8px;
+        text-decoration: none;
+        border: 1px solid #5a67d8;
+    }
+    .live-btn:hover { background: #5a67d8; }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<span style="color: #667eea;">04.</span> 데모 · 시연
+</h1>
+<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;">프로덕션은 <strong style="color:#475569;">Vercel</strong>에 배포되어 있습니다. 아래 URL로 라이브 시연하세요.</p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
+<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">라이브</div>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 148px; width: 520px; height: 492px;">
+<div class="demo-panel" style="height: 100%; padding: 28px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 0 0 6px 0;"><i class="fas fa-link" style="color: #667eea; margin-right: 8px;"></i>배포 URL</h2>
+<div style="padding: 12px 14px; border-radius: 12px; background: #f0f4ff; border: 1px solid #c7d2fe; margin-bottom: 4px;">
+<a href="https://hotdeal-lab.vercel.app/" target="_blank" rel="noopener noreferrer" style="font-size: 14px; font-weight: 700; color: #4338ca; word-break: break-all;">https://hotdeal-lab.vercel.app/</a>
+</div>
+<h2 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 10px 0 6px 0;"><i class="fas fa-list-check" style="color: #667eea; margin-right: 8px;"></i>시연 포인트</h2>
+<div class="check-row"><i class="fas fa-trophy" style="color: #d97706;"></i><span><strong>전체·카테고리 베스트 10</strong> — 큐레이션 노출 흐름</span></div>
+<div class="check-row"><i class="fas fa-layer-group" style="color: #6366f1;"></i><span><strong>목록 + 필터</strong> — 가격·카테고리 등 조건 탐색</span></div>
+<div class="check-row"><i class="fas fa-wand-magic-sparkles" style="color: #059669;"></i><span><strong>추천 검색</strong> — 자연어 질의 → 벡터 검색 결과</span></div>
+<div class="check-row"><i class="fas fa-comment-dots" style="color: #8b5cf6;"></i><span><strong>카드 상세</strong> — AI 요약·감성·절약액(있다면) 확인</span></div>
+</div>
+</div>
+
+<div style="position: absolute; left: 612px; top: 148px; width: 604px; height: 492px;">
+<div style="height: 100%; display: flex; flex-direction: column;">
+<div class="browser-chrome">
+<span class="dot" style="background:#ef4444;"></span>
+<span class="dot" style="background:#f59e0b;"></span>
+<span class="dot" style="background:#22c55e;"></span>
+<span style="flex:1; margin-left:12px; background:#334155; border-radius:6px; padding:6px 12px; font-size:12px; color:#e2e8f0;">https://hotdeal-lab.vercel.app/</span>
+</div>
+<div class="mock-screen">
+<iframe title="핫딜 연구소 라이브" src="https://hotdeal-lab.vercel.app/" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<div class="live-banner">
+<span class="live-url"></span>
+<a class="live-btn" href="https://hotdeal-lab.vercel.app/" target="_blank" rel="noopener noreferrer"><i class="fas fa-up-right-from-square"></i> 새 탭에서 열기</a>
+</div>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 12px; padding: 0 24px; height: 100%; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<div style="display: flex; align-items: center; gap: 24px; font-size: 14px; color: #475569;">
+<!-- <span><i class="fas fa-clock" style="color:#667eea;margin-right:8px;font-size:14px;"></i>크롤 이후 DB 반영 시각을 짚어주면 신뢰 ↑</span> -->
+<!-- <span><i class="fas fa-shield-halved" style="color:#667eea;margin-right:8px;font-size:14px;"></i>HOT / DROP 라벨이 보이는지 확인</span> -->
+</div>
+<a href="https://hotdeal-lab.vercel.app/" target="_blank" rel="noopener noreferrer" style="font-size: 14px; font-weight: 600; color: #667eea; text-decoration: none;">hotdeal-lab.vercel.app</a>
+</div>
+</div>
+
+<div style="position: absolute; right: -50px; top: -50px; width: 280px; height: 280px; opacity: 0.06; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+<div style="position: absolute; left: -40px; bottom: -40px; width: 220px; height: 220px; opacity: 0.06; background: radial-gradient(circle, #764ba2 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+</body>
+</html>

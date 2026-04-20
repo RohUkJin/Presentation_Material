@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>표지 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans KR', sans-serif;
+        overflow: hidden;
+    }
+    .slide-container {
+        width: 1280px;
+        height: 720px;
+        position: relative;
+        background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 42%, #f1f5f9 100%);
+        overflow: hidden;
+    }
+    .accent-bar {
+        width: 4px;
+        height: 96px;
+        border-radius: 4px;
+        background: linear-gradient(180deg, #667eea, #764ba2);
+        flex-shrink: 0;
+    }
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #475569;
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<!-- 배경 장식 (기존 슬라이드와 동일 톤) -->
+<div style="position: absolute; right: -80px; top: -80px; width: 420px; height: 420px; opacity: 0.12; background: radial-gradient(circle, #667eea 0%, transparent 68%); border-radius: 50%; pointer-events: none;"></div>
+<div style="position: absolute; left: -60px; bottom: -60px; width: 340px; height: 340px; opacity: 0.1; background: radial-gradient(circle, #764ba2 0%, transparent 68%); border-radius: 50%; pointer-events: none;"></div>
+<div style="position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); width: 900px; height: 420px; opacity: 0.06; background: radial-gradient(ellipse, #667eea 0%, transparent 70%); pointer-events: none;"></div>
+
+<!-- 중앙 본문 -->
+<div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 80px;">
+<div style="display: flex; align-items: center; gap: 36px; max-width: 1080px;">
+<div class="accent-bar" aria-hidden="true"></div>
+<div style="flex: 1;">
+<p style="margin: 0 0 12px 0; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; color: #667eea; text-transform: uppercase;">Study Presentation</p>
+<h1 style="margin: 0; font-size: 38px; font-weight: 800; color: #1e293b; line-height: 1.2; letter-spacing: -0.02em;">
+                    핫딜<span style="color: #667eea;">연구소</span>
+</h1>
+<p style="margin: 16px 0 0 0; font-size: 18px; font-weight: 500; color: #64748b; line-height: 1.45;">
+                    AI 기반 커뮤니티 핫딜 <strong style="color: #475569;">큐레이션</strong> · 네이버 최저가 검증 · <strong style="color: #475569;">의미 검색</strong>까지 한 흐름으로
+                </p>
+<div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px;">
+<span class="pill"><i class="fas fa-robot" style="color: #667eea;"></i>Gemini</span>
+<span class="pill"><i class="fas fa-database" style="color: #6366f1;"></i>Supabase · pgvector</span>
+<span class="pill"><i class="fas fa-bolt" style="color: #d97706;"></i>Next.js 15</span>
+<span class="pill"><i class="fas fa-spider" style="color: #059669;"></i>Python 크롤 파이프라인</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 상단 브랜드 (다른 슬라이드와 동일 위치·우측 블록 규격) -->
+<div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<span style="display: block; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; color: #94a3b8;">HOTDEAL LAB</span>
+<div style="font-size: 13px; color: #64748b; margin-top: 6px;"><i class="fas fa-link" style="color: #667eea; margin-right: 6px;"></i>hotdeal-lab.vercel.app</div>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
+<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">표지</div>
+</div>
+</div>
+</div>
+
+<!-- 하단 메타 (다른 슬라이드와 동일 높이·타이포) -->
+<div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; justify-content: space-between; align-items: center; height: 100%; background: white; border-radius: 12px; padding: 0 24px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<div style="display: flex; align-items: center; gap: 12px;">
+<span style="font-size: 13px; color: #94a3b8;">발표</span>
+<span style="font-size: 14px; font-weight: 700; color: #334155;">스터디 세션</span>
+</div>
+<div style="text-align: right;">
+<span style="font-size: 13px; color: #94a3b8;">2026년 1분기</span>
+<span style="font-size: 14px; font-weight: 600; color: #64748b; margin-left: 14px;">커뮤니티 핫딜 통합 · AI 추천</span>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

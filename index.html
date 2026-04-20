@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>핫딜연구소 — 프레젠테이션</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --sidebar-w: 220px;
+      --bg: #e8ecf1;
+      --sidebar-bg: #f4f6f9;
+      --border: #d1d9e6;
+      --accent: #667eea;
+      --text: #334155;
+      --toolbar-h: 48px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+    #deck-root {
+      display: flex;
+      height: 100%;
+      width: 100%;
+    }
+    #deck-root:fullscreen {
+      background: #1e293b;
+    }
+    /* 전체 화면: 프리뷰 사이드바 숨김 → 메인 영역만 사용 */
+    #deck-root:fullscreen #sidebar {
+      display: none;
+    }
+    #deck-root:fullscreen #main-stage {
+      background: #1e293b;
+    }
+    #deck-root:fullscreen .toolbar {
+      background: rgba(15, 23, 42, 0.95);
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+    #sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 12px 10px;
+      gap: 14px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    #thumb-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .sidebar-head {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      text-transform: uppercase;
+      padding: 4px 6px 8px;
+    }
+    .thumb-item {
+      border: 2px solid transparent;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .thumb-item:hover {
+      border-color: #cbd5e1;
+    }
+    .thumb-item.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25);
+    }
+    .thumb-frame-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+    .thumb-frame-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1280px;
+      height: 720px;
+      border: 0;
+      pointer-events: none;
+      transform-origin: 0 0;
+    }
+    .thumb-label {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 10px;
+      color: #475569;
+      border-top: 1px solid #e2e8f0;
+    }
+    .thumb-item.active .thumb-label {
+      color: var(--accent);
+    }
+    #main-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      background: var(--bg);
+    }
+    .toolbar {
+      height: var(--toolbar-h);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+    .btn-primary {
+      background: var(--accent);
+      border-color: #5a67d8;
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #5a67d8;
+      border-color: #4c51bf;
+    }
+    .hint {
+      font-size: 12px;
+      color: #64748b;
+    }
+    #deck-root:fullscreen .hint {
+      color: #94a3b8;
+    }
+    .slide-canvas {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 24px 24px;
+    }
+    #deck-root:fullscreen .slide-canvas {
+      padding: 6px 10px 10px;
+    }
+    .slide-scale-outer {
+      overflow: hidden;
+      flex-shrink: 0;
+      border-radius: 4px;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
+    }
+    #deck-root:fullscreen .slide-scale-outer {
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+    .slide-scale-box {
+      width: 1280px;
+      height: 720px;
+      position: relative;
+      transform-origin: 0 0;
+      box-shadow: none;
+      border-radius: 0;
+      overflow: hidden;
+    }
+    .slide-scale-box iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+    .slide-scale-box iframe.hidden {
+      visibility: hidden;
+      pointer-events: none;
+    }
+    /* 슬라이드 iframe 안 이미지 → 부모에서 전체 화면 확대 */
+    #ppt-image-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      outline: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 24px;
+      box-sizing: border-box;
+      background: rgba(15, 23, 42, 0.94);
+      cursor: zoom-out;
+    }
+    #ppt-image-overlay.is-open {
+      display: flex;
+    }
+    #ppt-image-overlay img {
+      max-width: 98vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5);
+      cursor: default;
+    }
+    #ppt-image-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #ppt-image-close:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+    #ppt-image-hint {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div id="deck-root">
+    <aside id="sidebar">
+      <div class="sidebar-head">슬라이드</div>
+      <div id="thumb-list"></div>
+    </aside>
+    <main id="main-stage">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <button type="button" class="btn" id="btn-prev" title="이전 (←)">
+            <i class="fas fa-chevron-left"></i> 이전
+          </button>
+          <button type="button" class="btn" id="btn-next" title="다음 (→)">
+            다음 <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <span class="hint" id="slide-counter">1 / 12</span>
+        <div class="toolbar-right">
+          <span class="hint">← → PageUp/Down Home/End</span>
+          <button type="button" class="btn btn-primary" id="btn-fs" title="전체 화면 (F)">
+            <i class="fas fa-expand"></i> 전체 화면
+          </button>
+        </div>
+      </div>
+      <div class="slide-canvas" id="slide-canvas">
+        <div class="slide-scale-outer" id="scale-outer">
+          <div class="slide-scale-box" id="scale-box"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="ppt-image-overlay" aria-hidden="true" tabindex="-1">
+    <button type="button" id="ppt-image-close" title="닫기 (Esc)" aria-label="닫기"><i class="fas fa-times"></i></button>
+    <img id="ppt-image-overlay-img" alt="확대 보기"/>
+    <p id="ppt-image-hint">배경을 클릭하거나 Esc로 닫습니다</p>
+  </div>
+
+  <script>
+    (function () {
+      var SLIDES = [
+        { file: 'cover.html', label: '표지' },
+        { file: 'toc.html', label: '목차' },
+        { file: '1.html', label: '01. 문제 정의' },
+        { file: '2.html', label: '02. 서비스 소개' },
+        { file: '3.html', label: '03. AI 활용 방식' },
+        { file: '3b.html', label: '03-1 수집·실행' },
+        { file: '3c.html', label: '03-2 필터·AI' },
+        { file: '3d.html', label: '03-3 파이프라인' },
+        { file: '3e.html', label: '03-4 시각화' },
+        { file: '4.html', label: '04. 데모·시연' },
+        { file: '5.html', label: '05. 기술 구조' },
+        { file: 'end.html', label: '마무리' }
+      ];
+      var BASE_W = 1280;
+      var BASE_H = 720;
+      var current = 0;
+      var iframes = [];
+
+      var deckRoot = document.getElementById('deck-root');
+      var scaleOuter = document.getElementById('scale-outer');
+      var scaleBox = document.getElementById('scale-box');
+      var slideCanvas = document.getElementById('slide-canvas');
+      var thumbList = document.getElementById('thumb-list');
+      var counter = document.getElementById('slide-counter');
+      var btnPrev = document.getElementById('btn-prev');
+      var btnNext = document.getElementById('btn-next');
+      var btnFs = document.getElementById('btn-fs');
+      var pptImageOverlay = document.getElementById('ppt-image-overlay');
+      var pptImageOverlayImg = document.getElementById('ppt-image-overlay-img');
+      var pptImageClose = document.getElementById('ppt-image-close');
+
+      function isImageOverlayOpen() {
+        return pptImageOverlay && pptImageOverlay.classList.contains('is-open');
+      }
+
+      function openImageOverlay(src) {
+        if (!src || !pptImageOverlayImg || !pptImageOverlay) return;
+        pptImageOverlayImg.src = src;
+        pptImageOverlay.classList.add('is-open');
+        pptImageOverlay.setAttribute('aria-hidden', 'false');
+        try {
+          pptImageOverlay.focus({ preventScroll: true });
+        } catch (e2) {
+          pptImageOverlay.focus();
+        }
+      }
+
+      function closeImageOverlay() {
+        if (!pptImageOverlay || !pptImageOverlayImg) return;
+        pptImageOverlay.classList.remove('is-open');
+        pptImageOverlay.setAttribute('aria-hidden', 'true');
+        pptImageOverlayImg.src = '';
+      }
+
+      pptImageOverlay.addEventListener('click', function (e) {
+        if (e.target === pptImageOverlay) closeImageOverlay();
+      });
+      pptImageClose.addEventListener('click', function (e) {
+        e.stopPropagation();
+        closeImageOverlay();
+      });
+      pptImageOverlay.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeImageOverlay();
+        }
+      });
+
+      window.addEventListener('message', function (e) {
+        var d = e.data;
+        if (d && d.type === 'ppt-open-image' && typeof d.src === 'string') {
+          openImageOverlay(d.src);
+        }
+      });
+
+      function updateCounter() {
+        counter.textContent = (current + 1) + ' / ' + SLIDES.length;
+      }
+
+      function setActiveThumb() {
+        var items = thumbList.querySelectorAll('.thumb-item');
+        for (var i = 0; i < items.length; i++) {
+          items[i].classList.toggle('active', i === current);
+        }
+      }
+
+      function showSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= SLIDES.length) index = SLIDES.length - 1;
+        current = index;
+        for (var i = 0; i < iframes.length; i++) {
+          iframes[i].classList.toggle('hidden', i !== current);
+        }
+        updateCounter();
+        setActiveThumb();
+      }
+
+      function goPrev() { showSlide(current - 1); }
+      function goNext() { showSlide(current + 1); }
+
+      function isTypingTarget(el) {
+        if (!el || !el.tagName) return false;
+        var tag = el.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+        if (el.isContentEditable) return true;
+        return false;
+      }
+
+      function onKey(e) {
+        if (isImageOverlayOpen()) {
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            closeImageOverlay();
+          }
+          return;
+        }
+        var k = e.key;
+        if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown') {
+          e.preventDefault();
+          goNext();
+        } else if (k === ' ' && !isTypingTarget(e.target)) {
+          e.preventDefault();
+          goNext();
+        } else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') {
+          e.preventDefault();
+          goPrev();
+        } else if (k === 'Home') {
+          e.preventDefault();
+          showSlide(0);
+        } else if (k === 'End') {
+          e.preventDefault();
+          showSlide(SLIDES.length - 1);
+        } else if (k === 'f' || k === 'F') {
+          if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();
+            toggleFs();
+          }
+        }
+      }
+
+      function wireIframeKeys(win) {
+        try {
+          win.addEventListener('keydown', onKey, true);
+        } catch (err) { /* cross-origin */ }
+      }
+
+      function layoutScale() {
+        var rect = slideCanvas.getBoundingClientRect();
+        var fs = !!document.fullscreenElement;
+        var pad = fs ? 4 : 8;
+        var availW = rect.width - pad * 2;
+        var availH = rect.height - pad * 2;
+        if (availW < 1 || availH < 1) return;
+        /* 창 모드: 1배 초과 확대 없음(선명도). 전체 화면: 가용 영역에 맞춰 확대(최대 3배) */
+        var maxScale = fs ? 3 : 1;
+        var s = Math.min(availW / BASE_W, availH / BASE_H, maxScale);
+        scaleOuter.style.width = (BASE_W * s) + 'px';
+        scaleOuter.style.height = (BASE_H * s) + 'px';
+        scaleBox.style.transform = 'scale(' + s + ')';
+      }
+
+      function layoutThumbs() {
+        var wraps = thumbList.querySelectorAll('.thumb-frame-wrap');
+        for (var i = 0; i < wraps.length; i++) {
+          var wrap = wraps[i];
+          var iframe = wrap.querySelector('iframe');
+          if (!iframe) continue;
+          var w = wrap.clientWidth;
+          if (w < 1) continue;
+          iframe.style.transform = 'scale(' + (w / BASE_W) + ')';
+        }
+      }
+
+      function layoutAll() {
+        layoutScale();
+        layoutThumbs();
+      }
+
+      function toggleFs() {
+        if (!document.fullscreenElement) {
+          deckRoot.requestFullscreen().catch(function () {});
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      function syncFsButton() {
+        var on = !!document.fullscreenElement;
+        btnFs.innerHTML = on
+          ? '<i class="fas fa-compress"></i> 전체 화면 종료'
+          : '<i class="fas fa-expand"></i> 전체 화면';
+      }
+
+      SLIDES.forEach(function (slide, i) {
+        var iframe = document.createElement('iframe');
+        iframe.src = slide.file;
+        iframe.setAttribute('title', slide.label);
+        iframe.className = i === 0 ? '' : 'hidden';
+        iframe.setAttribute('tabindex', '-1');
+        iframe.addEventListener('load', function () {
+          wireIframeKeys(iframe.contentWindow);
+        });
+        scaleBox.appendChild(iframe);
+        iframes.push(iframe);
+
+        var item = document.createElement('div');
+        item.className = 'thumb-item' + (i === 0 ? ' active' : '');
+        item.setAttribute('data-index', String(i));
+        var wrap = document.createElement('div');
+        wrap.className = 'thumb-frame-wrap';
+        var thumbIframe = document.createElement('iframe');
+        thumbIframe.src = slide.file;
+        thumbIframe.setAttribute('aria-hidden', 'true');
+        thumbIframe.addEventListener('load', function () {
+          layoutThumbs();
+          wireIframeKeys(thumbIframe.contentWindow);
+        });
+        wrap.appendChild(thumbIframe);
+        var lab = document.createElement('div');
+        lab.className = 'thumb-label';
+        lab.textContent = slide.label;
+        item.appendChild(wrap);
+        item.appendChild(lab);
+        item.addEventListener('click', function () { showSlide(i); });
+        thumbList.appendChild(item);
+      });
+
+      window.addEventListener('keydown', onKey, true);
+      document.addEventListener('fullscreenchange', function () {
+        syncFsButton();
+        requestAnimationFrame(layoutAll);
+      });
+
+      btnPrev.addEventListener('click', goPrev);
+      btnNext.addEventListener('click', goNext);
+      btnFs.addEventListener('click', toggleFs);
+
+      var ro = new ResizeObserver(function () { layoutAll(); });
+      ro.observe(slideCanvas);
+      ro.observe(thumbList);
+      window.addEventListener('load', layoutAll);
+      window.addEventListener('resize', layoutAll);
+      updateCounter();
+    })();
+  </script>
+</body>
+</html>

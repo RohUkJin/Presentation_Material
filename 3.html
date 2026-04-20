@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI 활용 방식 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans KR', sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        overflow: hidden;
+    }
+    .slide-container {
+        width: 1280px;
+        height: 720px;
+        position: relative;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        overflow: hidden;
+    }
+    .funnel-stage {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .stage-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    .stage-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .stage-content {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        flex-grow: 0;
+    }
+    .metric-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .status-pass { background: #d1fae5; color: #059669; }
+    .status-fail { background: #fee2e2; color: #dc2626; }
+    .status-process { background: #fef3c7; color: #d97706; }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<!-- Header -->
+<div data-object="true" data-object-type="textbox" style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<span style="color: #667eea;">03.</span> AI 활용 방식
+                </h1>
+<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;">하드필터 → 소프트스코어 → Gemini 3 Flash · 임베딩은 gemini-embedding-001 · 질의 해석은 2.5 Flash · <br> <strong style="color:#475569;">실행·로그는 03-1·03-2</strong> · <strong style="color:#475569;">상세는 03-3</strong> · <strong style="color:#475569;">도식은 03-4</strong></p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
+<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">AI 분석 엔진</div>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div data-object="true" data-object-type="shape" style="position: absolute; left: 64px; top: 168px; width: 1152px; height: 470px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; height: 100%;">
+<!-- 1단계: 하드 필터 -->
+<div class="funnel-stage">
+<div class="stage-header">
+<div class="stage-icon" style="background: #fef3c7;">
+<i class="fas fa-filter" style="font-size: 22px; color: #d97706;"></i>
+</div>
+<div>
+<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">1단계: 하드 필터</h3>
+<span style="font-size: 14px; color: #64748b;">규칙 기반 즉시 삭제</span>
+</div>
+</div>
+<div class="stage-content">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+<span style="font-size: 15px; color: #475569;">상태 키워드</span>
+<span class="metric-badge status-fail">"종료", "품절", "매진"</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+<span style="font-size: 15px; color: #475569;">유형 키워드</span>
+<span class="metric-badge status-fail">"광고", "제휴", "체험단"</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 15px; color: #475569;">반응 미달</span>
+<span class="metric-badge status-fail">댓글 3개 미만</span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
+<i class="fas fa-check-circle" style="color: #059669; font-size: 16px;"></i>
+<span style="font-size: 14px; color: #64748b;">비용: $0 (규칙 기반)</span>
+</div>
+</div>
+<!-- 2단계: 소프트 스코어링 -->
+<div class="funnel-stage">
+<div class="stage-header">
+<div class="stage-icon" style="background: #d1fae5;">
+<i class="fas fa-calculator" style="font-size: 22px; color: #059669;"></i>
+</div>
+<div>
+<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">2단계: 소프트 스코어링</h3>
+<span style="font-size: 14px; color: #64748b;">가산점 부여 및 검증</span>
+</div>
+</div>
+<div class="stage-content">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+<span style="font-size: 15px; color: #475569;">반응 속도</span>
+<span class="metric-badge status-process">(댓글+1)/(경과+10)^1.5</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+<span style="font-size: 15px; color: #475569;">단가 비교</span>
+<span class="metric-badge status-pass">네이버 최저가 vs 핫딜</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 15px; color: #475569;">절약 금액</span>
+<span class="metric-badge status-pass">&gt;30,000원 +2점</span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
+<i class="fas fa-check-circle" style="color: #059669; font-size: 16px;"></i>
+<span style="font-size: 14px; color: #64748b;">단가 15% 저렴 +3점</span>
+</div>
+</div>
+<!-- 3단계: AI 심층 분석 -->
+<div class="funnel-stage">
+<div class="stage-header">
+<div class="stage-icon" style="background: #e0e7ff;">
+<i class="fas fa-brain" style="font-size: 22px; color: #6366f1;"></i>
+</div>
+<div>
+<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">3단계: AI 분석</h3>
+<span style="font-size: 14px; color: #64748b;">Gemini 3 Flash Preview · 5건 청크</span>
+</div>
+</div>
+<div class="stage-content">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+<span style="font-size: 15px; color: #475569;">감성 분석</span>
+<span class="metric-badge status-pass">댓글 감성 0~100점</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+<span style="font-size: 15px; color: #475569;">바이럴 검출</span>
+<span class="metric-badge status-pass">"바이럴", "광고" DROP</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 15px; color: #475569;">임베딩</span>
+<span class="metric-badge status-pass">768차원 벡터</span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
+<i class="fas fa-check-circle" style="color: #059669; font-size: 16px;"></i>
+<span style="font-size: 14px; color: #64748b;">5건 청크 · 429 백오프 재시도</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Section -->
+<div data-object="true" data-object-type="shape" style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 12px; padding: 0 24px; height: 100%; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<div style="display: flex; align-items: center; gap: 28px;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<i class="fas fa-filter" style="color: #667eea; font-size: 14px;"></i>
+<span style="font-size: 14px; color: #475569;"><strong>3단계 필터링</strong> — 다음 장에서 GitHub·크롤 로그로 입증</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<i class="fas fa-search" style="color: #667eea; font-size: 14px;"></i>
+<span style="font-size: 14px; color: #475569;"><strong>벡터 검색</strong>으로 의미 기반 매칭</span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
+<span style="font-size: 14px; color: #667eea; font-weight: 700;">AI 큐레이션</span>
+</div>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div style="position: absolute; right: -50px; top: -50px; width: 300px; height: 300px; opacity: 0.05; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+<div style="position: absolute; left: -50px; bottom: -50px; width: 250px; height: 250px; opacity: 0.05; background: radial-gradient(circle, #764ba2 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+</body>
+</html>

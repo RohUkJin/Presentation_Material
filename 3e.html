@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>03-4 파이프라인 시각화 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); overflow: hidden; }
+    .slide-container { width: 1280px; height: 720px; position: relative; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); overflow: hidden; }
+    .viz-wrap { width: 100%; max-width: 1120px; margin: 0 auto; }
+    .viz-wrap svg { display: block; width: 100%; height: auto; }
+    .leg { display: flex; flex-wrap: wrap; gap: 16px 28px; font-size: 13px; color: #475569; align-items: center; justify-content: center; }
+    .leg span { display: inline-flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<span style="color: #667eea;">03-4.</span> 파이프라인 시각화
+</h1>
+<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;">03-3 단계를 한 장의 흐름도로 요약 · 주요 <code style="font-size:13px;background:#e2e8f0;padding:2px 8px;border-radius:6px;">DROP</code> / <code style="font-size:13px;background:#e2e8f0;padding:2px 8px;border-radius:6px;">ERROR</code> 분기 표시</p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
+<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">도식</div>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 196px; width: 1152px;">
+<div class="viz-wrap">
+<svg viewBox="0 0 1120 292" xmlns="http://www.w3.org/2000/svg" aria-label="처리 파이프라인 흐름도" preserveAspectRatio="xMidYMid meet">
+<defs>
+<!-- refX: 화살촉 끝이 선 끝(x2)에 오도록 해 다음 박스와 겹침 방지 -->
+<marker id="arr" markerWidth="9" markerHeight="9" refX="9" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+<polygon points="0 0, 9 4.5, 0 9" fill="#94a3b8"/>
+</marker>
+<marker id="arr-hi" markerWidth="9" markerHeight="9" refX="9" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+<polygon points="0 0, 9 4.5, 0 9" fill="#667eea"/>
+</marker>
+<filter id="sh" x="-8%" y="-8%" width="116%" height="116%">
+<feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-opacity="0.12"/>
+</filter>
+</defs>
+
+<!-- viewBox 너비 1120 = .viz-wrap max-width와 동일 · 박스열 x=8~1112(갭 28px)로 가로 채움 -->
+<g filter="url(#sh)">
+<rect x="8" y="16" width="83" height="62" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="49.5" y="42" text-anchor="middle" font-size="13" font-weight="800" fill="#334155">수집</text>
+<text x="49.5" y="60" text-anchor="middle" font-size="10.5" fill="#64748b">크롤</text>
+
+<rect x="119" y="16" width="131" height="62" rx="10" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5"/>
+<text x="184.5" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#92400e">① 하드필터</text>
+<text x="184.5" y="58" text-anchor="middle" font-size="10" fill="#b45309">_apply_hard_filter</text>
+
+<rect x="278" y="16" width="164" height="62" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+<text x="360" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1e40af">② 소프트필터+네이버 검증</text>
+<text x="360" y="58" text-anchor="middle" font-size="10" fill="#1d4ed8">_calculate_soft_score</text>
+
+<rect x="470" y="16" width="89" height="62" rx="10" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="1.5"/>
+<text x="514.5" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#047857">③ READY 선별</text>
+<text x="514.5" y="58" text-anchor="middle" font-size="10" fill="#059669">score≥0</text>
+
+<rect x="587" y="16" width="110" height="62" rx="10" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1.5"/>
+<text x="642" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#4338ca">④ LLM 분석</text>
+<text x="642" y="58" text-anchor="middle" font-size="10" fill="#4f46e5">analyze_batch</text>
+
+<rect x="725" y="16" width="98" height="62" rx="10" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+<text x="774" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#5b21b6">⑤ 반영</text>
+<text x="774" y="58" text-anchor="middle" font-size="10" fill="#6d28d9">매핑·상태</text>
+
+<rect x="851" y="16" width="101" height="62" rx="10" fill="#ecfeff" stroke="#67e8f9" stroke-width="1.5"/>
+<text x="901.5" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#0e7490">⑥ 임베딩</text>
+<text x="901.5" y="58" text-anchor="middle" font-size="10" fill="#0f766e">embedding-001</text>
+
+<rect x="980" y="16" width="132" height="62" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+<text x="1046" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="#166534">⑦ 마무리</text>
+<text x="1046" y="58" text-anchor="middle" font-size="10" fill="#15803d">cache·DB·통계</text>
+</g>
+
+<!-- 정방향 화살표: 박스 세로 중앙 -->
+<line x1="95" y1="47" x2="115" y2="47" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="254" y1="47" x2="274" y2="47" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="446" y1="47" x2="466" y2="47" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="563" y1="47" x2="583" y2="47" stroke="#667eea" stroke-width="2.2" marker-end="url(#arr-hi)"/>
+<line x1="701" y1="47" x2="721" y2="47" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="827" y1="47" x2="847" y2="47" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="956" y1="47" x2="976" y2="47" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+
+<!-- DROP 분기 수직선 -->
+<line x1="184.5" y1="82" x2="184.5" y2="126" stroke="#f87171" stroke-width="1.4" stroke-dasharray="4 3"/>
+<line x1="360" y1="82" x2="360" y2="126" stroke="#f87171" stroke-width="1.4" stroke-dasharray="4 3"/>
+<line x1="514.5" y1="82" x2="514.5" y2="126" stroke="#f87171" stroke-width="1.4" stroke-dasharray="4 3"/>
+<line x1="774" y1="82" x2="774" y2="126" stroke="#f87171" stroke-width="1.4" stroke-dasharray="4 3"/>
+
+<rect x="8" y="130" width="1104" height="54" rx="10" fill="#fef2f2" stroke="#fecaca" stroke-width="1.5"/>
+<text x="560" y="154" text-anchor="middle" font-size="13" font-weight="800" fill="#991b1b">DROP · 파이프라인 이탈</text>
+<text x="560" y="172" text-anchor="middle" font-size="10.5" fill="#b91c1c">① 키워드·댓글(원칙)·가격 없음  │  ② 네이버보다 비쌈(단가)  │  ③ score &lt; 0  │  ⑤ 응답 ID 없음(암시적 DROP)</text>
+
+<rect x="568" y="192" width="544" height="40" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
+<text x="840" y="216" text-anchor="middle" font-size="11.5" font-weight="700" fill="#92400e">⑤ 청크 JSON 파싱 실패 → status = ERROR (READY였던 딜)</text>
+
+<text x="560" y="252" text-anchor="middle" font-size="10.5" fill="#64748b">④ 청크당 5건 · 청크 간 15초(RPM)  ·  HOT/MAYBE만 배열에 포함(DROP 생략 유도)</text>
+<text x="560" y="268" text-anchor="middle" font-size="10.5" fill="#64748b">⑥ is_hotdeal + embed_text 있는 딜만 벡터  ·  ⑦ 핫딜만 DB · cache.json · last_run_result.json · 통계 · clean_old_deals(5)</text>
+</svg>
+</div>
+
+<div class="leg" style="margin-top: 14px; padding: 0 8px;">
+<span><span class="dot" style="background:#667eea;"></span>굵은 화살표 = <strong>READY</strong> 이후 LLM 대열</span>
+<span><span class="dot" style="background:#94a3b8;"></span>회색 화살표 = 순차 처리</span>
+<span><span class="dot" style="background:#f87171;"></span>빨간 점선 = DROP 분기</span>
+<span><span class="dot" style="background:#fbbf24;"></span>노란 박스 = ERROR 분기</span>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 100%; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<span style="font-size: 13px; color: #475569;"><i class="fas fa-book-open" style="color:#667eea;margin-right:8px;"></i>문구·함수명은 <strong>03-3</strong>과 동일 기준 · 수집 단계 상세는 <strong>03-1</strong></span>
+<span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
+</div>
+</div>
+<div style="position: absolute; left: -36px; bottom: 70px; width: 160px; height: 160px; opacity: 0.06; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+</body>
+</html>
