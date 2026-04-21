@@ -102,7 +102,7 @@
 <div class="pcard">
 <h3><span class="num">5.</span> 청크 결과를 딜에 반영</h3>
 <ul>
-<li>응답에 <strong>ID 있음</strong> → <code>is_hotdeal</code>, 카테고리(enum 매핑), <code>ai_summary</code>, <code>sentiment_score</code>, <code>embed_text</code>, <code>status</code>를 <code>HOT</code>/<code>DROP</code>으로 설정</li>
+<li>응답에 <strong>ID 있음</strong> → <code>is_hotdeal</code>, Category, <code>ai_summary</code>, <code>sentiment_score</code>, <code>embed_text</code>, <code>status</code>를 <code>HOT</code>/<code>DROP</code>으로 설정</li>
 <li><strong>없음</strong>(모델이 DROP) → <code>is_hotdeal=False</code>, DROP 처리, 요약은 고정 문구 등</li>
 <li>청크 전체 JSON 파싱 등 <strong>예외</strong> 시, 아직 <code>READY</code>인 딜은 <code>status = "ERROR"</code></li>
 </ul>
