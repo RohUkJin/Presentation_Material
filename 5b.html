@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>05-1 E2E 구현 흐름 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans KR', sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        overflow: hidden;
+    }
+    .slide-container {
+        width: 1280px;
+        height: 720px;
+        position: relative;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        overflow: hidden;
+    }
+    .flow-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 10px 12px 10px;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+        height: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .flow-card h2 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 800;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .flow-card h2 .num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 800;
+    }
+    .flow-card ul {
+        margin: 0;
+        padding-left: 14px;
+        font-size: 11.5px;
+        color: #475569;
+        line-height: 1.38;
+    }
+    .flow-card li { margin-bottom: 3px; }
+    .flow-card code {
+        font-size: 10px;
+        background: #f1f5f9;
+        padding: 1px 5px;
+        border-radius: 4px;
+        color: #334155;
+    }
+    .flow-card strong { color: #334155; }
+    .note-strip {
+        font-size: 11px;
+        color: #64748b;
+        background: #f8fafc;
+        border-radius: 8px;
+        padding: 6px 10px;
+        border: 1px solid #e2e8f0;
+        line-height: 1.45;
+    }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="min-width: 0;">
+<h1 style="font-size: 36px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<span style="color: #667eea;">05-1.</span> 코드 기준 종단간 흐름
+</h1>
+<p style="font-size: 17px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;"><strong style="color:#475569;">HOTDEAL_SCRAPER</strong> · <strong style="color:#475569;">HOTDEAL_LAB</strong> 저장소 기준 — 수집부터 추천 검색까지 다섯 축</p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 240px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em;">핫딜연구소</span>
+<div style="font-size: 22px; font-weight: 800; color: #667eea; margin-top: 4px;">E2E</div>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 128px; width: 1152px; height: 500px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 10px;">
+<div class="flow-card">
+<h2><span class="num">1</span> 크롤링 방식</h2>
+<ul>
+<li><strong>Playwright</strong> <code>chromium.launch(headless=True)</code> + 단일 <code>BrowserContext</code>에서 소스별 크롤러 실행 (<code>run_once.py</code>)</li>
+<li>소스: <code>Community1_Crawler</code> · <code>Community2_Crawler</code> · <code>Community3_Crawler</code> — 각각 <code>process(context)</code></li>
+<li><code>BaseCrawler</code>: 게시판 <code>goto(..., wait_until='domcontentloaded')</code> → <strong>목록</strong> <code>crawl_list</code>(페이지네이션) → 행마다 <strong>상세</strong> <code>crawl_detail</code></li>
+<li>상세 HTML은 커뮤니티별로 <strong>BeautifulSoup</strong> 등으로 필드 추출</li>
+<li><code>Processor._apply_hard_filter</code>에 걸린 행은 <strong>상세 크롤 생략</strong>으로 부하 절감</li>
+</ul>
+</div>
+<div class="flow-card">
+<h2><span class="num">2</span> AI가 들어가는 지점</h2>
+<ul>
+<li><strong>페이지 수집 단계에는 LLM 없음</strong> — 브라우저로 글·가격·댓글 메타만 구조화</li>
+<li>수집 후 <code>Processor.process_deal</code>(규칙·네이버 단가·스코어) → <code>READY</code>만 <code>Analyzer.analyze_batch</code>로 <strong>Gemini</strong> 판별·요약·감성·<code>embed_text</code></li>
+<li>핫딜로 확정된 항목에 <code>gemini-embedding-001</code> → <code>deal.embedding</code> (<strong>768차원</strong>, DB·검색용)</li>
+</ul>
+<div class="note-strip" style="margin-top: auto;"><i class="fas fa-lightbulb" style="color:#d97706;margin-right:6px;"></i>정리: AI는 “크롤 루프 안”이 아니라 <strong>배치 파이프라인의 분석·임베딩 구간</strong>에 위치합니다.</div>
+</div>
+<div class="flow-card">
+<h2><span class="num">3</span> DB 적재 과정</h2>
+<ul>
+<li>Python <strong>Supabase</strong> 클라이언트 (<code>app/core/database.py</code>) — <code>hotdeals</code> 테이블에 <code>upsert</code>(id 기준)</li>
+<li><code>run_once</code> 루프에서 <strong><code>deal.is_hotdeal</code>일 때만</strong> <code>db.save_deal(deal)</code> 호출</li>
+<li>페이로드: <code>title</code>·<code>link</code>·<code>embedding</code>·<code>ai_summary</code>·<code>sentiment_score</code> 등 스키마에 맞게 매핑</li>
+<li>실행 요약은 <code>crawl_stats</code>에 <code>insert</code>, 오래된 행은 <code>clean_old_deals(5)</code>로 정리</li>
+</ul>
+</div>
+<div class="flow-card">
+<h2><span class="num">4</span> 클라이언트로 데이터 가져오기</h2>
+<ul>
+<li>웹은 <strong>Next.js 16</strong> — UI에서 <strong>서버 함수(Server Actions)</strong> (<code>src/app/actions.ts</code>) 호출</li>
+<li>목록·베스트10·날짜별 인기 등은 서버에서 <code>supabase.from('hotdeals').select(...)</code>로 조회 후 필터·정렬·중복 제거하여 반환</li>
+<li>브라우저에 DB 키를 직접 심는 패턴이 아니라, <strong>서버 측 Supabase 클라이언트</strong>로 조회하는 형태(기존 05 슬라이드와 동일 선상)</li>
+</ul>
+</div>
+<div class="flow-card" style="grid-column: 1 / -1;">
+<h2><span class="num">5</span> 클라이언트 추천 검색 원리</h2>
+<ul>
+<li>컴포넌트가 <code>getRecommendationFromPrompt(prompt)</code> Server Action 호출 (<code>RecommendationPopup.tsx</code>)</li>
+<li><strong>1)</strong> <code>gemini-2.5-flash</code>로 자연어 질의를 JSON으로 구조화 — 카테고리·검색 키워드·연관 키워드·한 줄 코멘트</li>
+<li><strong>2)</strong> 같은 질의 문자열을 <code>gemini-embedding-001</code>에 <code>taskType: RETRIEVAL_QUERY</code>, <strong>768차원</strong>으로 임베딩</li>
+<li><strong>3)</strong> <code>supabase.rpc('match_hotdeals', { query_embedding, match_threshold, match_count, filter_categories })</code> — <strong>pgvector 코사인 유사도</strong>로 후보 추출</li>
+<li><strong>4)</strong> 커뮤니티 링크 제거 등 후처리 후 상위 <strong>20건</strong> 반환 · RPC가 이미 유사도 순이라 순서 유지</li>
+</ul>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 638px; width: 1152px; height: 56px;">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 100%; background: white; border-radius: 12px; padding: 0 22px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<span style="font-size: 13px; color: #475569;"><i class="fas fa-link" style="color:#667eea;margin-right:8px;"></i>03·03-3·05 슬라이드와 함께 보면 개념 ↔ 구현이 맞물립니다</span>
+<span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
+</div>
+</div>
+<div style="position: absolute; right: -36px; bottom: 72px; width: 160px; height: 160px; opacity: 0.06; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+</body>
+</html>
