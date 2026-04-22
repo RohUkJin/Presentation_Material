@@ -95,7 +95,7 @@
 <li><strong>5건인 이유</strong> — <code>429</code>/<code>503</code>·레이트·모델 부하를 피하고, 청크가 클수록 한 번 실패 시 손실 단위·<strong>JSON 잘림·파싱 실패</strong> 위험이 커짐(<code>analyzer</code> 쪽 주석·예외 메시지와 동일 취지).</li>
 <li><strong>입·출력 크기</strong> — 항목마다 제목·가격·네이버·절약액·링크·점수·댓글 미리보기(상위 5개) 등으로 프롬프트가 두껍고, 구조화 응답도 길어져 <strong>TPM·비용·지연</strong>에 민감 → 배치 상한을 5로 둠.</li>
 <li>위 필드를 시스템 프롬프트에 묶어 청크별로 전송, 응답은 딜 ID로 매핑</li>
-<li>기본 <code>gemini-3-flash-preview</code>, 실패 시 <code>gemini-2.0-flash</code> 등 <strong>폴백·재시도</strong></li>
+<li>기본 <code>gemini-3-flash</code>, 실패 시 <code>gemini-2.0-flash</code> 등 <strong>폴백·재시도</strong></li>
 <li>응답 JSON 스키마: <code>HOT</code>/<code>MAYBE</code>만 배열에 넣고 <code>DROP</code>은 생략 유도</li>
 </ul>
 </div>
