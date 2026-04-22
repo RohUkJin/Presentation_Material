@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>04-1 수집·자동 실행 - 핫딜연구소</title>
+<title>04-3b LLM·DB 증빙 - 핫딜연구소</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <style>
@@ -14,13 +14,11 @@
         border: 1px solid #e2e8f0;
         overflow: hidden;
         background: #0f172a;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
     }
-    .shot img { width: 100%; height: 300px; object-fit: contain; object-position: center top; display: block; cursor: zoom-in; }
-    .cap { font-size: 12px; color: #64748b; margin-top: 8px; line-height: 1.45; padding: 0 4px; }
+    .shot img { width: 100%; height: 240px; object-fit: contain; object-position: center top; display: block; cursor: zoom-in; }
+    .cap { font-size: 12px; color: #64748b; margin-top: 8px; line-height: 1.45; }
     .cap strong { color: #475569; }
+    .cap code { font-size: 10px; background: #f1f5f9; padding: 1px 5px; border-radius: 4px; color: #334155; }
 </style>
 </head>
 <body>
@@ -28,41 +26,44 @@
 <div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
 <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
 <div style="min-width: 0;">
-<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
-<span style="color: #667eea;">04-1.</span> 수집 · 자동 실행(스케줄링)
+<h1 style="font-size: 36px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<span style="color: #667eea;">04-3.</span> LLM 선별 · DB 적재
 </h1>
-<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;">GitHub Actions 스케줄과 <code style="font-size:14px;background:#e2e8f0;padding:2px 8px;border-radius:6px;">run_once.py</code> 크롤 단계 로그</p>
+<p style="font-size: 17px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;"><strong style="color:#475569;">04-3</strong> 단계 설명에 이어, 실제 실행 로그로 <code style="font-size:13px;background:#e2e8f0;padding:2px 8px;border-radius:6px;">Analyzer.analyze_batch</code>와 <code style="font-size:13px;background:#e2e8f0;padding:2px 8px;border-radius:6px;">db.save_deal</code> 흐름을 보여 줍니다.</p>
 </div>
-<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
-<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
-<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">크롤링</div>
+<div style="text-align: right; flex-shrink: 0; width: 240px; box-sizing: border-box;">
+<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em;">핫딜연구소</span>
+<div style="font-size: 22px; font-weight: 800; color: #667eea; margin-top: 4px;">증빙</div>
 </div>
 </div>
 </div>
 
-<div style="position: absolute; left: 64px; top: 148px; width: 1152px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px;">
+<div style="position: absolute; left: 64px; top: 152px; width: 1152px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
 <div>
-<div class="shot"><img src="assets/evidence-gha-workflow-runs.png" alt="GitHub Actions 워크플로 실행 목록"/></div>
-<p class="cap"><strong>① 스케줄 실행 이력</strong> — Daily Hotdeal Crawl이 <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px;">main</code>에서 반복 성공한 기록</p>
+<div class="shot"><img src="assets/evidence-llm-chunk-gemini.png" alt="228건 배치·gemini-3-flash-preview 청크 분석 로그"/></div>
+<p class="cap"><strong>① LLM 선별</strong> — <code>228</code>건을 <strong>5건×46청크</strong>로 나누어 <code>gemini-3-flash-preview</code> <code>generateContent</code> 호출 · 청크 간 <strong>15초</strong> 대기(RPM) · 응답 <code>200 OK</code> 후 <strong>LLM returned 5 items</strong></p>
 </div>
 <div>
-<div class="shot"><img src="assets/evidence-gha-run-detail.png" alt="GitHub Actions 단일 런 요약"/></div>
-<p class="cap"><strong>② 단일 런 요약</strong> — 트리거·소요 시간·<code style="background:#f1f5f9;padding:1px 6px;border-radius:4px;">crawl</code> 잡 성공 (워크플로 그래프)</p>
+<div class="shot"><img src="assets/evidence-db-hotdeals-save.png" alt="hotdeals REST POST 및 Saved hotdeal 로그"/></div>
+<p class="cap"><strong>② 카테고리·DB</strong> — 최종 요약 <code>228 Hot Deals Found</code> 이후 <code>httpx POST …/rest/v1/hotdeals</code> <strong>201 Created</strong> · <code>Saved hotdeal to DB</code>와 <code>[Category.OTHERS]</code> / <code>[Category.OFFICE]</code> 등 분류 결과가 한 줄에 붙어 출력</p>
 </div>
-<div>
-<div class="shot"><img src="assets/evidence-crawl-job-log.png" alt="크롤 페이지 단위 로그"/></div>
-<p class="cap"><strong>③ 페이지 단위 수집</strong> — 뽐뿌 등 게시판 페이지를 순회하며 deal row를 탐지하는 단계</p>
+</div>
+
+<div style="position: absolute; left: 64px; top: 468px; width: 1152px;">
+<div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+<p style="margin:0;font-size:13px;color:#475569;line-height:1.55;"><i class="fas fa-link" style="color:#667eea;margin-right:8px;"></i>앞 장 <strong>04-3</strong>의 4~7번 카드(청크 LLM → 매핑 → 임베딩 → <code>save_deal</code>)와 연결됩니다. <strong>04-4</strong> 흐름도의 굵은 화살표(READY 이후 LLM) 구간의 실제 출력 예입니다.</p>
 </div>
 </div>
 
 <div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
 <div style="display: flex; align-items: center; justify-content: space-between; height: 100%; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
-<span style="font-size: 14px; color: #475569;"><i class="fas fa-magnifying-glass-plus" style="color:#667eea;margin-right:8px;font-size:14px;"></i>캡처 <strong>클릭</strong> 시 크게 보기 · <strong>수집·스케줄</strong> 증빙</span>
+<span style="font-size: 14px; color: #475569;"><i class="fas fa-magnifying-glass-plus" style="color:#667eea;margin-right:8px;"></i>캡처 <strong>클릭</strong> 시 크게 보기</span>
 <span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
 </div>
 </div>
-<div style="position: absolute; right: -40px; top: 100px; width: 200px; height: 200px; opacity: 0.06; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+<div style="position: absolute; right: -36px; bottom: 72px; width: 160px; height: 160px; opacity: 0.06; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
 </div>
+
 <div id="local-img-overlay" tabindex="-1" style="display:none;position:fixed;inset:0;z-index:99999;padding:16px;box-sizing:border-box;background:rgba(15,23,42,0.94);align-items:center;justify-content:center;flex-direction:column;outline:none;">
 <button type="button" id="local-img-close" style="position:absolute;top:12px;right:12px;width:40px;height:40px;border:none;border-radius:8px;background:rgba(255,255,255,0.15);color:#e2e8f0;cursor:pointer;font-size:18px;" aria-label="닫기">×</button>
 <img id="local-img-overlay-img" alt="" style="max-width:100%;max-height:88vh;object-fit:contain;border-radius:8px;"/>
