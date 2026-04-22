@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>04. 파이프라인 - 핫딜연구소</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 40%, #f1f5f9 100%); overflow: hidden; }
+    .slide-container { width: 1280px; height: 720px; position: relative; overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end;">
+<div>
+<h1 style="font-size: 42px; font-weight: 800; color: #1e293b; margin: 0 0 10px 0;">
+<span style="color: #667eea;">04.</span> 파이프라인
+</h1>
+<p style="font-size: 19px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.5; max-width: 900px;">커뮤니티에서 글을 모은 뒤, 규칙·점수·AI로 거르고 DB에 올리기까지의 <strong style="color:#475569;">일일 배치 흐름</strong>을 이 섹션에서 나눕니다.</p>
+</div>
+<div style="text-align: right; flex-shrink: 0; width: 220px;">
+<span style="display:block;font-size:13px;color:#94a3b8;">핫딜연구소</span>
+<div style="font-size:22px;font-weight:800;color:#667eea;margin-top:4px;">Part 04</div>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 220px; width: 1152px;">
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 16px;box-shadow:0 2px 8px rgba(15,23,42,0.04);">
+<div style="font-size:12px;font-weight:800;color:#667eea;margin-bottom:6px;">04-1</div>
+<div style="font-size:16px;font-weight:700;color:#1e293b;">수집 · 자동 실행</div>
+<p style="margin:8px 0 0;font-size:13px;color:#64748b;line-height:1.45;">GitHub Actions, <code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px;">run_once</code> 로그</p>
+</div>
+<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 16px;box-shadow:0 2px 8px rgba(15,23,42,0.04);">
+<div style="font-size:12px;font-weight:800;color:#667eea;margin-bottom:6px;">04-2</div>
+<div style="font-size:16px;font-weight:700;color:#1e293b;">필터 · 검증 · READY</div>
+<p style="margin:8px 0 0;font-size:13px;color:#64748b;line-height:1.45;">kept vs <code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px;">[READY]</code> 증빙</p>
+</div>
+<div style="background:#fff;border:1px solid #c7d2fe;border-radius:14px;padding:18px 16px;box-shadow:0 2px 10px rgba(102,126,234,0.12);">
+<div style="font-size:12px;font-weight:800;color:#4338ca;margin-bottom:6px;">04-3</div>
+<div style="font-size:16px;font-weight:700;color:#1e293b;">처리 상세</div>
+<p style="margin:8px 0 0;font-size:13px;color:#64748b;line-height:1.45;">단계별 함수·LLM·DB 적재</p>
+</div>
+<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 16px;box-shadow:0 2px 8px rgba(15,23,42,0.04);">
+<div style="font-size:12px;font-weight:800;color:#667eea;margin-bottom:6px;">04-4</div>
+<div style="font-size:16px;font-weight:700;color:#1e293b;">흐름도</div>
+<p style="margin:8px 0 0;font-size:13px;color:#64748b;line-height:1.45;">DROP / ERROR 분기 한눈에</p>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 100%; background: white; border-radius: 12px; padding: 0 24px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<span style="font-size: 14px; color: #475569;"><i class="fas fa-arrow-down" style="color:#667eea;margin-right:8px;"></i>다음 슬라이드부터 <strong>04-1</strong> 상세</span>
+<span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
+</div>
+</div>
+<div style="position: absolute; right: -40px; bottom: 60px; width: 200px; height: 200px; opacity: 0.07; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+</div>
+</body>
+</html>

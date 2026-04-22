@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="utf-8"/>
@@ -22,184 +21,148 @@
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         overflow: hidden;
     }
-    .funnel-stage {
-        background: white;
-        border-radius: 16px;
-        padding: 24px;
+    .model-card {
+        background: #fff;
+        border-radius: 14px;
         border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        padding: 14px 16px 14px;
+        height: 100%;
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        height: 100%;
+        gap: 10px;
+        overflow: hidden;
     }
-    .stage-header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 24px;
-    }
-    .stage-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-    .stage-content {
-        background: #f8fafc;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        flex-grow: 0;
-    }
-    .metric-badge {
-        padding: 6px 12px;
-        border-radius: 20px;
+    .model-name {
         font-size: 13px;
-        font-weight: 600;
-        white-space: nowrap;
+        font-weight: 800;
+        color: #4338ca;
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
     }
-    .status-pass { background: #d1fae5; color: #059669; }
-    .status-fail { background: #fee2e2; color: #dc2626; }
-    .status-process { background: #fef3c7; color: #d97706; }
+    .model-card h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 800;
+        color: #1e293b;
+        line-height: 1.25;
+    }
+    .repo-pill {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        padding: 3px 8px;
+        border-radius: 6px;
+        margin-right: 6px;
+        margin-bottom: 10px;
+    }
+    .repo-scraper { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .repo-lab { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+    .model-card ul {
+        margin: 0;
+        padding-left: 15px;
+        font-size: 12px;
+        color: #475569;
+        line-height: 1.42;
+    }
+    .model-card li { margin-bottom: 5px; }
+    .model-card code {
+        font-size: 10px;
+        background: #f1f5f9;
+        padding: 1px 5px;
+        border-radius: 4px;
+        color: #334155;
+    }
+    .note-box {
+        font-size: 11px;
+        color: #64748b;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 8px 10px;
+        line-height: 1.4;
+    }
+    .note-box strong { color: #334155; }
 </style>
 </head>
 <body>
 <div class="slide-container">
-<!-- Header -->
-<div data-object="true" data-object-type="textbox" style="position: absolute; left: 64px; top: 40px; width: 1152px;">
-<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+<div style="position: absolute; left: 64px; top: 40px; width: 1152px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px;">
 <div style="min-width: 0;">
-<h1 style="font-size: 38px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">
+<h1 style="font-size: 34px; font-weight: 800; color: #1e293b; margin: 0 0 6px 0; line-height: 1.15;">
 <span style="color: #667eea;">03.</span> AI 활용 방식
-                </h1>
-<p style="font-size: 18px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;">하드필터 → 소프트스코어 → Gemini 3 Flash · 임베딩은 gemini-embedding-001 · 질의 해석은 2.5 Flash · <br> <strong style="color:#475569;">실행·로그는 03-1·03-2</strong> · <strong style="color:#475569;">상세는 03-3</strong> · <strong style="color:#475569;">도식은 03-4</strong></p>
+</h1>
+<p style="font-size: 15px; font-weight: 500; color: #64748b; margin: 0; line-height: 1.45;"><strong style="color:#475569;">모델별</strong>로 <strong style="color:#475569;">어느 저장소·어느 함수</strong>에서 쓰는지 정리합니다. 규칙 필터·점수는 AI가 아닙니다(03-3).</p>
 </div>
-<div style="text-align: right; flex-shrink: 0; width: 260px; box-sizing: border-box;">
-<span style="display: block; font-size: 14px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; line-height: 1.2;">핫딜연구소</span>
-<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-top: 4px; line-height: 1.15;">AI 분석 엔진</div>
+<div style="text-align: right; flex-shrink: 0; width: 220px; box-sizing: border-box;">
+<span style="display: block; font-size: 13px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em;">핫딜연구소</span>
+<div style="font-size: 21px; font-weight: 800; color: #667eea; margin-top: 2px;">Gemini</div>
 </div>
 </div>
 </div>
-<!-- Main Content -->
-<div data-object="true" data-object-type="shape" style="position: absolute; left: 64px; top: 168px; width: 1152px; height: 470px;">
-<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; height: 100%;">
-<!-- 1단계: 하드 필터 -->
-<div class="funnel-stage">
-<div class="stage-header">
-<div class="stage-icon" style="background: #fef3c7;">
-<i class="fas fa-filter" style="font-size: 22px; color: #d97706;"></i>
+
+<div class="note-box" style="position: absolute; left: 64px; top: 112px; width: 1152px; box-sizing: border-box;">
+<i class="fas fa-circle-info" style="color:#667eea;margin-right:6px;"></i>
+<strong>팩트</strong>: Playwright로 게시판·상세 페이지를 읽는 <strong>수집 구간</strong>에는 Gemini 호출이 없습니다. 아래 모델들은 <strong>수집이 끝난 뒤</strong>(스크래퍼 배치) 또는 <strong>웹 앱 서버</strong>(LAB)에서만 호출됩니다.
 </div>
+
+<div style="position: absolute; left: 64px; top: 176px; width: 1152px; height: 458px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; height: 100%;">
+<!-- 1: Gemini 3 Flash -->
+<div class="model-card">
 <div>
-<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">1단계: 하드 필터</h3>
-<span style="font-size: 14px; color: #64748b;">규칙 기반 즉시 삭제</span>
+<span class="repo-pill repo-scraper">HOTDEAL_SCRAPER</span>
+<div class="model-name">gemini-3-flash-preview</div>
+<h3>배치 LLM — 딜 단위 판별·요약</h3>
 </div>
+<ul>
+<li><strong>위치</strong>: <code>app/core/analyzer.py</code> · <code>Analyzer.analyze_batch</code> (<code>generateContent</code>)</li>
+<li><strong>시점</strong>: <code>run_once.py</code> 흐름에서 <strong>수집 + Processor(하드/소프트·READY) 이후</strong>. READY 상태 딜만 청크로 묶어 전송합니다.</li>
+<li><strong>입력</strong>: 제목·가격·네이버 비교·절약액·점수·댓글 미리보기 등을 시스템 프롬프트에 포함.</li>
+<li><strong>출력</strong>: 구조화 JSON — 딜별 <code>HOT</code>/<code>MAYBE</code>만 배열에 넣고 <code>DROP</code>은 생략 유도. 응답에서 카테고리, <code>ai_summary</code>, <code>sentiment_score</code>, 검색용 <code>embed_text</code> 등을 채웁니다.</li>
+<li><strong>운영</strong>: 기본 5건 청크·청크 사이 15초(RPM 완화). 실패 시 <code>gemini-2.0-flash</code>로 폴백·429/503 재시도 로직.</li>
+</ul>
 </div>
-<div class="stage-content">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-<span style="font-size: 15px; color: #475569;">상태 키워드</span>
-<span class="metric-badge status-fail">"종료", "품절", "매진"</span>
-</div>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-<span style="font-size: 15px; color: #475569;">유형 키워드</span>
-<span class="metric-badge status-fail">"광고", "제휴", "체험단"</span>
-</div>
-<div style="display: flex; justify-content: space-between; align-items: center;">
-<span style="font-size: 15px; color: #475569;">반응 미달</span>
-<span class="metric-badge status-fail">댓글 3개 미만</span>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
-<i class="fas fa-check-circle" style="color: #059669; font-size: 16px;"></i>
-<span style="font-size: 14px; color: #64748b;">비용: $0 (규칙 기반)</span>
-</div>
-</div>
-<!-- 2단계: 소프트 스코어링 -->
-<div class="funnel-stage">
-<div class="stage-header">
-<div class="stage-icon" style="background: #d1fae5;">
-<i class="fas fa-calculator" style="font-size: 22px; color: #059669;"></i>
-</div>
+<!-- 2: embedding-001 -->
+<div class="model-card">
 <div>
-<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">2단계: 소프트 스코어링</h3>
-<span style="font-size: 14px; color: #64748b;">가산점 부여 및 검증</span>
+<span class="repo-pill repo-scraper">HOTDEAL_SCRAPER</span><span class="repo-pill repo-lab">LAB</span>
+<div class="model-name">gemini-embedding-001</div>
+<h3>벡터 생성 — DB 적재 &amp; 추천 질의</h3>
 </div>
+<ul>
+<li><strong>SCRAPER</strong>: 같은 Analyzer 경로의 <code>_generate_embeddings</code> — <code>is_hotdeal</code>이고 <code>embed_text</code>가 있는 딜만 <code>embedContent</code> → <strong>768차원</strong>을 <code>deal.embedding</code>에 넣고 Supabase <code>hotdeals</code> upsert 시 함께 저장.</li>
+<li><strong>LAB</strong>: <code>src/app/actions.ts</code>의 <code>getRecommendationFromPrompt</code>에서 사용자 문장(프롬프트)을 <code>taskType: RETRIEVAL_QUERY</code>, <code>outputDimensionality: 768</code>로 임베딩 → <code>supabase.rpc('match_hotdeals', …)</code>의 <code>query_embedding</code>으로 넘김.</li>
+</ul>
 </div>
-<div class="stage-content">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-<span style="font-size: 15px; color: #475569;">반응 속도</span>
-<span class="metric-badge status-process">(댓글+1)/(경과+10)^1.5</span>
-</div>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-<span style="font-size: 15px; color: #475569;">단가 비교</span>
-<span class="metric-badge status-pass">네이버 최저가 vs 핫딜</span>
-</div>
-<div style="display: flex; justify-content: space-between; align-items: center;">
-<span style="font-size: 15px; color: #475569;">절약 금액</span>
-<span class="metric-badge status-pass">&gt;30,000원 +2점</span>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
-<i class="fas fa-check-circle" style="color: #059669; font-size: 16px;"></i>
-<span style="font-size: 14px; color: #64748b;">단가 15% 저렴 +3점</span>
-</div>
-</div>
-<!-- 3단계: AI 심층 분석 -->
-<div class="funnel-stage">
-<div class="stage-header">
-<div class="stage-icon" style="background: #e0e7ff;">
-<i class="fas fa-brain" style="font-size: 22px; color: #6366f1;"></i>
-</div>
+<!-- 3: 2.5 flash -->
+<div class="model-card">
 <div>
-<h3 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">3단계: AI 분석</h3>
-<span style="font-size: 14px; color: #64748b; line-height: 1.4; display: block;">Gemini 3 Flash Preview · 5건 청크<br/><span style="font-size: 12px; color: #94a3b8;">레이트 안정 목표, 항목당 프롬프트가 커서 배치 상한</span></span>
+<span class="repo-pill repo-lab">HOTDEAL_LAB</span>
+<div class="model-name">gemini-2.5-flash</div>
+<h3>추천 검색 — 질의를 구조화</h3>
 </div>
-</div>
-<div class="stage-content">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-<span style="font-size: 15px; color: #475569;">감성 분석</span>
-<span class="metric-badge status-pass">댓글 감성 0~100점</span>
-</div>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-<span style="font-size: 15px; color: #475569;">바이럴 검출</span>
-<span class="metric-badge status-pass">"바이럴", "광고" DROP</span>
-</div>
-<div style="display: flex; justify-content: space-between; align-items: center;">
-<span style="font-size: 15px; color: #475569;">임베딩</span>
-<span class="metric-badge status-pass">768차원 벡터</span>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 8px; padding-left: 4px;">
-<i class="fas fa-check-circle" style="color: #059669; font-size: 16px;"></i>
-<span style="font-size: 14px; color: #64748b;">5건 청크(요청 분할) · 429 백오프 재시도</span>
+<ul>
+<li><strong>위치</strong>: <code>actions.ts</code> · <code>getRecommendationFromPrompt</code> 첫 단계 (<code>generateContent</code>).</li>
+<li><strong>용도</strong>: 자연어 한 줄을 시스템 지시에 맞춰 JSON으로 풀기 — 예: <code>target_categories</code>, <code>search_keywords</code>, <code>related_keywords</code>, 공감 한 줄 <code>ai_comment</code>. 이후 <strong>같은 문자열</strong>을 위 임베딩 단계에 넘겨 벡터 검색과 연결합니다.</li>
+<li><strong>보조</strong>: 할당량·429 등에서 <code>gemini-2.5-flash-lite</code>로 폴백하는 분기가 코드에 있습니다.</li>
+</ul>
+<p style="margin: 4px 0 0 0; font-size: 11px; color: #94a3b8; line-height: 1.35;">일반 목록·베스트 조회는 Supabase 조회만 하며, 이 모델은 <strong>추천 검색 UI</strong>를 탈 때만 씁니다.</p>
 </div>
 </div>
 </div>
-</div>
-<!-- Bottom Section -->
-<div data-object="true" data-object-type="shape" style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
-<div style="display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 12px; padding: 0 24px; height: 100%; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
-<div style="display: flex; align-items: center; gap: 28px;">
-<div style="display: flex; align-items: center; gap: 10px;">
-<i class="fas fa-filter" style="color: #667eea; font-size: 14px;"></i>
-<span style="font-size: 14px; color: #475569;"><strong>3단계 필터링</strong> — 다음 장에서 GitHub·크롤 로그로 입증</span>
-</div>
-<div style="display: flex; align-items: center; gap: 10px;">
-<i class="fas fa-search" style="color: #667eea; font-size: 14px;"></i>
-<span style="font-size: 14px; color: #475569;"><strong>벡터 검색</strong>으로 의미 기반 매칭</span>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 10px;">
+
+<div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
+<div style="display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 12px; padding: 0 22px; height: 100%; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+<span style="font-size: 13px; color: #475569;"><i class="fas fa-book-open" style="color:#667eea;margin-right:8px;"></i>배치 세부·로그는 <strong>04-1~04-3</strong>, 웹→DB 흐름은 <strong>05·05-1</strong></span>
 <span style="font-size: 13px; color: #94a3b8;">핫딜연구소</span>
-<span style="font-size: 14px; color: #667eea; font-weight: 700;">AI 큐레이션</span>
 </div>
 </div>
-</div>
-<!-- Decorative Elements -->
-<div style="position: absolute; right: -50px; top: -50px; width: 300px; height: 300px; opacity: 0.05; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-<div style="position: absolute; left: -50px; bottom: -50px; width: 250px; height: 250px; opacity: 0.05; background: radial-gradient(circle, #764ba2 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+<div style="position: absolute; right: -40px; top: 100px; width: 180px; height: 180px; opacity: 0.05; background: radial-gradient(circle, #667eea 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
 </div>
 </body>
 </html>

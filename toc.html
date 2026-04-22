@@ -56,7 +56,7 @@
         position: absolute;
         left: 64px;
         width: 1152px;
-        top: 160px;
+        top: 144px;
         bottom: 64px;
         overflow-y: auto;
         overflow-x: hidden;
@@ -108,42 +108,49 @@
 <span class="toc-num">02</span>
 <div style="flex: 1;">
 <div class="toc-title"><i class="fas fa-layer-group" style="color: #6366f1; margin-right: 10px;"></i>서비스 소개</div>
-<p class="toc-desc">통합 큐레이션, 수집·필터·탐색 경험과 기술 스택 개요</p>
+<p class="toc-desc">모으기·선별하기·한 화면에서 찾기 + 스택 한 줄</p>
 </div>
 </div>
 <div class="toc-item">
 <span class="toc-num">03</span>
 <div style="flex: 1;">
 <div class="toc-title"><i class="fas fa-brain" style="color: #059669; margin-right: 10px;"></i>AI 활용 방식</div>
-<p class="toc-desc">3단계 퍼널, Gemini·임베딩·검색 — 개념 슬라이드</p>
+<p class="toc-desc">모델별 사용처 — 3 Flash · embedding-001 · 2.5 Flash</p>
+</div>
+</div>
+<div class="toc-item" style="grid-column: 1 / -1;">
+<span class="toc-num">04</span>
+<div style="flex: 1;">
+<div class="toc-title"><i class="fas fa-diagram-project" style="color: #0d9488; margin-right: 10px;"></i>파이프라인</div>
+<p class="toc-desc">섹션 오프닝 · 이어서 04-1~04-4로 수집·필터·상세·도식</p>
 </div>
 </div>
 <div class="toc-item">
-<span class="toc-num" style="color:#818cf8;">03-1</span>
+<span class="toc-num" style="color:#818cf8;">04-1</span>
 <div style="flex: 1;">
 <div class="toc-title"><i class="fas fa-clock-rotate-left" style="color: #6366f1; margin-right: 10px;"></i>수집 · 자동 실행</div>
 <p class="toc-desc">GitHub Actions 스케줄·단일 런·페이지 크롤 로그 스크린샷</p>
 </div>
 </div>
 <div class="toc-item">
-<span class="toc-num" style="color:#818cf8;">03-2</span>
+<span class="toc-num" style="color:#818cf8;">04-2</span>
 <div style="flex: 1;">
-<div class="toc-title"><i class="fas fa-filter" style="color: #d97706; margin-right: 10px;"></i>필터 · 검증 · AI 선별</div>
-<p class="toc-desc">터미널 증빙 · <code>kept fresh deal</code>(댓글 예외) ≠ <code>[READY]</code>(process_deal 후 LLM 대기)</p>
+<div class="toc-title"><i class="fas fa-filter" style="color: #d97706; margin-right: 10px;"></i>필터 · 검증 · READY</div>
+<p class="toc-desc">터미널 증빙 · <code>kept fresh deal</code> ≠ <code>[READY]</code></p>
 </div>
 </div>
 <div class="toc-item">
-<span class="toc-num" style="color:#818cf8;">03-3</span>
+<span class="toc-num" style="color:#818cf8;">04-3</span>
 <div style="flex: 1;">
-<div class="toc-title"><i class="fas fa-diagram-project" style="color: #0d9488; margin-right: 10px;"></i>처리 파이프라인 상세</div>
-<p class="toc-desc">하드필터 → 소프트+네이버 → READY → 청크 LLM → 매핑·임베딩 → 캐시·DB·통계</p>
+<div class="toc-title"><i class="fas fa-list-ol" style="color: #0d9488; margin-right: 10px;"></i>처리 파이프라인 상세</div>
+<p class="toc-desc">하드필터 → 소프트+네이버 → READY → 청크 LLM → 임베딩 → DB·통계</p>
 </div>
 </div>
-<div class="toc-item" style="grid-column: 1 / -1;">
-<span class="toc-num" style="color:#818cf8;">03-4</span>
+<div class="toc-item">
+<span class="toc-num" style="color:#818cf8;">04-4</span>
 <div style="flex: 1;">
 <div class="toc-title"><i class="fas fa-route" style="color: #7c3aed; margin-right: 10px;"></i>파이프라인 시각화</div>
-<p class="toc-desc">03-3 흐름도 · DROP/ERROR 분기 · 03-1 수집과 연결</p>
+<p class="toc-desc">04-3 흐름도 · DROP/ERROR 분기 · 04-1 수집과 연결</p>
 </div>
 </div>
 <div class="toc-item" style="grid-column: 1 / -1;">
@@ -161,10 +168,10 @@
 </div>
 </div>
 <div class="toc-item" style="grid-column: 1 / -1;">
-<span class="toc-num">04</span>
+<span class="toc-num">06</span>
 <div style="flex: 1;">
 <div class="toc-title"><i class="fas fa-play-circle" style="color: #8b5cf6; margin-right: 10px;"></i>데모 · 시연</div>
-<p class="toc-desc">구조·코드 흐름을 본 뒤 라이브 서비스(hotdeal-lab.vercel.app)로 확인</p>
+<p class="toc-desc">05·05-1 이후 라이브 서비스(hotdeal-lab.vercel.app)로 확인</p>
 </div>
 </div>
 </div>
@@ -172,7 +179,6 @@
 
 <div style="position: absolute; left: 64px; top: 648px; width: 1152px; height: 56px;">
 <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; height: 100%; background: white; border-radius: 12px; padding: 0 18px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
-<span style="font-size: 12px; color: #64748b; line-height: 1.35; flex: 1; min-width: 0;"><strong style="color:#475569;">재생 순서</strong> · 03-4 다음 <strong>05 → 05-1 → 04</strong>(데모)</span>
 <span style="font-size: 13px; color: #64748b; flex-shrink: 0; white-space: nowrap;"><i class="fas fa-arrow-right" style="color: #667eea; margin-right: 6px;"></i>다음 슬라이드부터 본론</span>
 </div>
 </div>
